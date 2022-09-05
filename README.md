@@ -8,20 +8,20 @@
 - design elkeszitese hogy pofas legyen :D
 
 
-##ADATBÁZIS TERV
+## ADATBÁZIS TERV
 
 ### Csapatok
-	- csapat_nev
-	- csapat_tagok (nev;osztaly)
+- csapat_nev
+- csapat_tagok (nev;osztaly)
 
 ### Meccsek
-	- csapat_a
-	- csapat_b
-	- idopont
-	- eredmeny
+- csapat_a
+- csapat_b
+- idopont
+- eredmeny
 
 ### Döntő
-	- csapat_a
-	- csapat_b
-	- idopont
-	- eredmeny
+- csapat_a
+- csapat_b
+- idopont
+- eredmeny
