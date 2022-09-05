@@ -10,18 +10,26 @@
 
 ## ADATBÁZIS TERV
 
+### Felhasznalok
+- id
+- uname || VARCHAR(255)
+- pwd   || VARCHAR(512)
+
 ### Csapatok
-- csapat_nev
-- csapat_tagok (nev;osztaly)
+- id
+- csapat_nev || CHAR(255)
+- csapat_tagok (nev-osztaly;) || VARCHAR(512)
 
 ### Meccsek
-- csapat_a
-- csapat_b
-- idopont
-- eredmeny
+- id
+- csapat_a || CHAR(255)
+- csapat_b || CHAR(255)
+- idopont  || TIME
+- eredmeny || INT(15)
 
-### Döntő
-- csapat_a
-- csapat_b
-- idopont
-- eredmeny
+### Döntő -> ?????
+- id
+- csapat_a || CHAR(255)
+- csapat_b || CHAR(255)
+- idopont  || TIME
+- eredmeny || INT(15)
