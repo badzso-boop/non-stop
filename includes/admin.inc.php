@@ -19,3 +19,16 @@
         //Felhasznalo beleptetese
         LoginUser($conn, $uname, $pwd);
     }
+
+    if(isset($_POST["submitCS"])) {
+        $csapatNev = $_POST["csapatnev"];
+        $csapatTSzam = $_POST["szam"];
+        $pontszam = $_POST["pontszam"];
+
+        $csapatTagok = "".$_POST["nev1"]."-".$_POST["osztaly1"].";";
+        for ($i=2; $i <= $csapatTSzam; $i++) { 
+            $csapatTagok .= "".$_POST['nev'.$i]."-".$_POST['osztaly'.$i].";";
+        }
+
+        echo 'Csapatnev: '.$csapatNev.', Csapattagok: '.$csapatTagok.'';
+    }
