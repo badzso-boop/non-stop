@@ -34,10 +34,12 @@
 - pwd   || VARCHAR(512)
 
 CREATE TABLE felhasznalok (
-    id INT(255) NOT NULL UNIQUE,
+    id INT(255) NOT NULL UNIQUE AUTO_INCREMENT,
     uname VARCHAR(255) NOT NULL,
     pwd VARCHAR(512) NOT NULL
 );
+
+---
 
 ### Csapatok
 - id
@@ -46,11 +48,13 @@ CREATE TABLE felhasznalok (
 - csapat_pontszam             || INT(15)
 
 CREATE TABLE csapatok (
-    id INT(255) NOT NULL UNIQUE,
+    id INT(255) NOT NULL UNIQUE AUTO_INCREMENT,
     csapat_nev CHAR(255),
     csapat_tagok VARCHAR(512),
     pontszam INT(15)
 );
+
+---
 
 ### Meccsek
 - id
@@ -62,7 +66,7 @@ CREATE TABLE csapatok (
 - eredmeny     || INT(15)
 
 CREATE TABLE meccsek (
-    id INT(15) NOT NULL UNIQUE,
+    id INT(15) NOT NULL UNIQUE AUTO_INCREMENT,
     csapat_a VARCHAR(255),
     csapat_a_gol INT(15),
     csapat_b VARCHAR(255),
@@ -70,6 +74,8 @@ CREATE TABLE meccsek (
     idopont TIME,
     eredmeny INT(15)
 );
+
+---
 
 ### Döntő -> ?????
 - id
