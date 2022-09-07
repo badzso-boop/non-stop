@@ -1,5 +1,5 @@
 function inputok() {
-    let inputSzam = document.getElementById("szam").value + 1;
+    let inputSzam = document.getElementById("szam").value;
 
     let inputCsNev = document.createElement("input");
     let br = document.createElement("br");

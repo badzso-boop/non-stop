@@ -12,7 +12,7 @@
 
         //Üres input mezok ellenorzese
         if(emptyInputLogin($uname, $pwd) === true) {
-            header("location: ../admin.php?error=emptyinput");
+            header("location: ../admin.php?error=emptyinputLogin");
                 exit();
         }
 
@@ -30,5 +30,12 @@
             $csapatTagok .= "".$_POST['nev'.$i]."-".$_POST['osztaly'.$i].";";
         }
 
-        echo 'Csapatnev: '.$csapatNev.', Csapattagok: '.$csapatTagok.'';
+        //echo 'Csapatnev: '.$csapatNev.', Csapattagok: '.$csapatTagok.'';
+
+        if(emptyInputCsapatok($csapatNev, $csapatTagok)) {
+            header("location: ../admin.php?error=emptyinputcsapatok");
+            exit();
+        }
+
+        csapatFeltoltese($conn, $csapatNev, $csapatTagok, $pontszam);
     }

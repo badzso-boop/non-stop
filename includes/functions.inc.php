@@ -70,3 +70,30 @@ function LoginUser($conn, $uname, $pwd) {
 		exit();
     }
 }
+
+function emptyInputCsapatok($csapatNev, $csapatTagok) {
+    $result;
+    if(empty($csapatNev) || empty($csapatTagok)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+function csapatFeltoltese($conn, $csapatNev, $csapatTagok, $pontszam) {
+    $sql = "INSERT INTO csapatok (csapat_nev, csapat_tagok, pontszam) VALUES (?, ?, ?)";
+	$stmt = mysqli_stmt_init($conn);
+	if (!mysqli_stmt_prepare($stmt, $sql)) {
+	 	header("location: ../admin.php?error=stmtfailed");
+		exit();
+	}
+
+	mysqli_stmt_bind_param($stmt, "sss", $csapatNev, $csapatTagok, $pontszam);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
+	mysqli_close($conn);
+	header("location: ../admin.php?error=none");
+	exit();
+}
