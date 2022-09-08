@@ -53,3 +53,70 @@ function inputok() {
 
     document.getElementById("kezdes").style.display = "none";
 }
+
+function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
+    //console.log("ID: " + id + ", Csapatnev: " + csapat_nev + ", Csapat tagok: " + csapat_tagok + ", POntszám: " + pontszam);
+
+    var form = document.getElementById("csapatSzerkForm");
+    var inputId = document.createElement("input");
+    var inputCsNev = document.createElement("input");
+    var inputPontszam = document.createElement("input");
+    var buttonSubmit = document.createElement("button");
+    var br = document.createElement("br");
+    var segedInput = document.createElement("input");
+
+    inputId.type = "number";
+    inputId.name = "id";
+    inputId.value = id;
+    inputId.style.display = "none";
+
+    inputCsNev.type = "text";
+    inputCsNev.name = "csapat_nev";
+    inputCsNev.value = csapat_nev;
+
+    inputPontszam.type = "number";
+    inputPontszam.name = "pontszam";
+    inputPontszam.value = pontszam;
+    inputPontszam.style.display = "none";
+
+    buttonSubmit.type = "submit";
+    buttonSubmit.name = "submitCsSzerk";
+    buttonSubmit.innerHTML = "Mentés";
+
+    segedInput.type = "number";
+    segedInput.name = "szam";
+    segedInput.style.display = "none";
+
+    form.appendChild(inputId);
+    form.appendChild(inputCsNev);
+    form.appendChild(inputPontszam);
+    form.appendChild(br);
+    
+    
+    var csapatTagok = csapat_tagok.split(";");
+    segedInput.value = csapatTagok.length-1;
+    form.appendChild(segedInput);
+
+    for (let index = 0; index < csapatTagok.length-1; index++) {
+        var inputCsTagN = document.createElement("input");
+        var inputCsTagO = document.createElement("input");
+        var br = document.createElement("br");
+
+        var seged = csapatTagok[index].split("-");
+        var szam = index+1;
+
+        inputCsTagN.type = "text";
+        inputCsTagN.name = "nev" + szam;
+        inputCsTagN.value = seged[0];
+
+        inputCsTagO.type = "text";
+        inputCsTagO.name = "osztaly" + szam;
+        inputCsTagO.value = seged[1];
+
+        form.appendChild(inputCsTagN);
+        form.appendChild(inputCsTagO);
+        form.appendChild(br);
+    }
+
+    form.appendChild(buttonSubmit);
+}

@@ -63,6 +63,49 @@
         ?>
     </form>
 
+    <hr>
+
+    <h1>Csapatok listája:</h1>
+
+    <table>
+        <tr>
+            <td>Id</td>
+            <td>Csapatnév</td>
+            <td>Csapattagok</td>
+            <td>Pontszám</td>
+            <td></td>
+        </tr>
+        <?php 
+            require_once 'includes/dbh.inc.php';
+            require_once 'includes/functions.inc.php';
+
+            $csapatok = csapatokLekeres($conn);
+
+            if ($csapatok->num_rows > 0) {
+                while($seged = $csapatok->fetch_assoc()) {
+                    $tomb = explode(";", $seged["csapat_tagok"]);
+                    $szam = count($tomb) - 1;
+                    
+                    echo "<tr><td>".$seged["id"]."</td>";
+                    echo "<td>".$seged["csapat_nev"]."</td>";
+                    echo "<td><ul>";
+                    for ($i=0; $i < $szam; $i++) { 
+                        echo "<li>".$tomb[$i]."</li>";
+                    }
+                    echo "</ul></td>";
+                    echo "<td>".$seged["pontszam"]."</td>";
+                    echo "<td><button onclick='csapatokSzerkesztesJS(".$seged["id"].",".json_encode($seged["csapat_nev"]).",".json_encode($seged["csapat_tagok"]).",".$seged["pontszam"].")'>Szerkesztés</button></td></tr>";
+                }
+            } else {
+                echo "Nincsenek fent csapatok :(";
+            }
+        ?>
+    </table>
+    <form action="includes/admin.inc.php" method="post" id="csapatSzerkForm">
+    </form>
+
+
+
     
 </body>
 </html>

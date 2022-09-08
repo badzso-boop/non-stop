@@ -97,3 +97,26 @@ function csapatFeltoltese($conn, $csapatNev, $csapatTagok, $pontszam) {
 	header("location: ../admin.php?error=none");
 	exit();
 }
+
+function csapatokLekeres($conn) {
+    $sql = "SELECT * FROM csapatok";
+	$result = $conn->query($sql);
+
+	return $result;
+}
+
+function csapatSzerkesztese($conn, $id, $csapatNev, $csapatTagok, $pontszam) {
+    $sql = "UPDATE csapatok SET csapat_nev = ?, csapat_tagok = ?, pontszam = ? WHERE id = ?;";
+	$stmt = mysqli_stmt_init($conn);
+	if (!mysqli_stmt_prepare($stmt, $sql)) {
+	 	header("location: ../admin.php?error=stmtfailed");
+		exit();
+	}
+
+	mysqli_stmt_bind_param($stmt, "ssss", $csapatNev, $csapatTagok, $pontszam, $id);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
+	mysqli_close($conn);
+	header("location: ../admin.php?error=none");
+	exit();
+}

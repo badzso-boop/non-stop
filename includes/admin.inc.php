@@ -25,9 +25,9 @@
         $csapatTSzam = $_POST["szam"];
         $pontszam = $_POST["pontszam"];
 
-        $csapatTagok = "".$_POST["nev1"]."-".$_POST["osztaly1"].";";
+        $csapatTagok = "".$_POST["nev1"]." - ".$_POST["osztaly1"].";";
         for ($i=2; $i <= $csapatTSzam; $i++) { 
-            $csapatTagok .= "".$_POST['nev'.$i]."-".$_POST['osztaly'.$i].";";
+            $csapatTagok .= "".$_POST['nev'.$i]." - ".$_POST['osztaly'.$i].";";
         }
 
         //echo 'Csapatnev: '.$csapatNev.', Csapattagok: '.$csapatTagok.'';
@@ -38,4 +38,23 @@
         }
 
         csapatFeltoltese($conn, $csapatNev, $csapatTagok, $pontszam);
+    }
+
+    if(isset($_POST["submitCsSzerk"])) {
+        $id = $_POST["id"];
+        $csapatNev = $_POST["csapat_nev"];
+        $pontszam = $_POST["pontszam"];
+        $csapatTSzam = $_POST["szam"];
+
+        $csapatTagok = "".$_POST["nev1"]." - ".$_POST["osztaly1"].";";
+        for ($i=2; $i <= $csapatTSzam; $i++) { 
+            $csapatTagok .= "".$_POST['nev'.$i]." - ".$_POST['osztaly'.$i].";";
+        }
+
+        if(emptyInputCsapatok($csapatNev, $csapatTagok)) {
+            header("location: ../admin.php?error=emptyinputcsapatok");
+            exit();
+        }
+
+        csapatSzerkesztese($conn, $id, $csapatNev, $csapatTagok, $pontszam);
     }
