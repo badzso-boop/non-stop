@@ -120,3 +120,41 @@ function csapatSzerkesztese($conn, $id, $csapatNev, $csapatTagok, $pontszam) {
 	header("location: ../admin.php?error=none");
 	exit();
 }
+
+function emptyInputMeccsek($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny) {
+	$result;
+	if(empty($csapat_a) || empty($csapat_a_gol) || empty($csapat_b) || empty($csapat_b_gol) || empty($idopont) || empty($eredmeny)) {
+        $result = true;
+    } else {
+        $result = false;
+    }
+
+    return $result;
+}
+
+function meccsFeltoltese($conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny) {
+	$sql = "INSERT INTO meccsek (csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, idopont, eredmeny) VALUES (?, ?, ?, ?, ?, ?)";
+	$stmt = mysqli_stmt_init($conn);
+	if (!mysqli_stmt_prepare($stmt, $sql)) {
+	 	header("location: ../admin.php?error=stmtfailed");
+		exit();
+	}
+
+	mysqli_stmt_bind_param($stmt, "ssssss", $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
+	mysqli_close($conn);
+	header("location: ../admin.php?error=none");
+	exit();
+}
+
+function meccsekLekerese($conn) {
+	$sql = "SELECT * FROM meccsek";
+	$result = $conn->query($sql);
+
+	return $result;
+}
+
+function meccsEredmenyRogzitese() {
+	
+}

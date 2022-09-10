@@ -120,3 +120,60 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
 
     form.appendChild(buttonSubmit);
 }
+
+function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, idopont, eredmeny) {
+    var form = document.getElementById("meccsEredmForm");
+    var inputId = documen.createElement("input");
+    var inputCsapatA = documen.createElement("input");
+    var inputCsapatAGol = documen.createElement("input");
+    var inputCsapatB = documen.createElement("input");
+    var inputCsapatBGol = documen.createElement("input");
+    var inputIdopont = documen.createElement("input");
+    var inputEredm = documen.createElement("input");
+    var buttonSubmit = document.createElement("button");
+
+    inputId.type = "number";
+    inputId.name = "id";
+    inputId.value = id;
+    //inputId.readonly = true;
+
+    inputCsapatA.type = "text";
+    inputCsapatA.name = "csapat_a";
+    inputCsapatA.value = csapat_a;
+    //inputCsapatA.readonly = true;
+
+    inputCsapatAGol.type = "number";
+    inputCsapatAGol.name = "csapat_a_gol";
+    inputCsapatAGol.value = csapat_a_gol;
+    //inputCsapatAGol.readonly = true;
+
+    inputCsapatB.type = "text";
+    inputCsapatB.name = "csapat_b";
+    inputCsapatB.value = csapat_b;
+    //inputCsapatB.readonly = true;
+
+    inputCsapatBGol.type = "number";
+    inputCsapatBGol.name = "csapat_b_gol";
+    inputCsapatBGol.value = csapat_b_gol;
+    //inputCsapatBGol.readonly = true;
+
+    inputIdopont.type = "time";
+    inputIdopont.name = "idopont";
+    inputIdopont.value = idopont;
+    //inputIdopont.readonly = true;
+
+    inputEredm.type = "number";
+    inputEredm.name = "eredmeny";
+    
+
+    form.appendChild(inputCsapatA);
+    form.appendChild(inputCsapatAGol);
+    form.appendChild(inputCsapatB);
+    form.appendChild(inputCsapatBGol);
+    form.appendChild(idopont);
+    form.appendChild(eredmeny);
+}
+
+function proba(kurva) {
+    console.log(kurva)
+}

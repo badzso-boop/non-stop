@@ -21,7 +21,7 @@
         }
     ?>
 
-    <hr style="width='75%'">
+<hr style="width: 75%;">
 
     <h1>Csapatok feltöltése</h1>
 
@@ -63,7 +63,7 @@
         ?>
     </form>
 
-    <hr>
+    <hr style="width: 75%;">
 
     <h1>Csapatok listája:</h1>
 
@@ -104,7 +104,104 @@
     <form action="includes/admin.inc.php" method="post" id="csapatSzerkForm">
     </form>
 
+    <hr style="width: 75%;">
 
+    <h1>Meccsek feltöltése</h1>
+
+    <form action="includes/admin.inc.php" method="post">
+        <label for="csapat_a">Csapat A</label>
+        <select name="csapat_a">
+            <?php
+                require_once 'includes/dbh.inc.php';
+                require_once 'includes/functions.inc.php';
+
+                $csapatok = csapatokLekeres($conn);
+
+                if ($csapatok->num_rows > 0) {
+                    while($seged = $csapatok->fetch_assoc()) {
+                        echo '<option value="'.$seged["csapat_nev"].'">'.$seged["csapat_nev"].'</option>';
+                    }
+                }
+            ?>
+        </select>
+
+        <input type="number" name="csapat_a_gol" value="0" style="display:none;">
+
+        <br>
+
+        <label for="csapat_b">Csapat B</label>
+        <select name="csapat_b">
+            <?php
+                require_once 'includes/dbh.inc.php';
+                require_once 'includes/functions.inc.php';
+
+                $csapatok = csapatokLekeres($conn);
+
+                if ($csapatok->num_rows > 0) {
+                    while($seged = $csapatok->fetch_assoc()) {
+                        echo '<option value="'.$seged["csapat_nev"].'">'.$seged["csapat_nev"].'</option>';
+                    }
+                }
+            ?>
+        </select>
+        <input type="number" name="csapat_b_gol" value="0" style="display:none;">
+
+        <br>
+
+        <label for="idopont">Meccs időpontja:</label>
+        <input type="time" name="idopont">
+        <input type="number" name="eredmeny" value="-1" style="display:none">
+
+        <button type="submit" name="submitMeccs">Mentés</button>
+    </form>
+
+    <table>
+        <tr>
+            <th>Id</th>
+            <th>Csapat A</th>
+            <th>Csapat A gól</th>
+            <th>Csapat B</th>
+            <th>Csapat B Gól</th>
+            <th>időpont</th>
+            <th>Eredmény</th>
+            <th></th>
+        </tr>
+        <?php 
+            require_once 'includes/dbh.inc.php';
+            require_once 'includes/functions.inc.php';
+
+            $meccsek = meccsekLekerese($conn);
+
+            if ($meccsek->num_rows > 0) {
+                while($seged = $meccsek->fetch_assoc()) {
+                    $eredmeny;
+                    if ($seged["eredmeny"] == -1){
+                        $eredmeny = "Nincs rögzítve";
+                    } elseif ($seged["eredmeny"] == 1) {
+                        $eredmeny = $seged["csapat_a"];
+                    } elseif ($seged["eredmeny"] == 2) {
+                        $eredmeny = $seged["csapat_b"];
+                    } elseif ($seged["eredmeny"] == 0) {
+                        $eredmeny = "Döntetlen";
+                    }
+
+                    echo "<tr>
+                    <td>".$seged['id']."</td>
+                    <td>".$seged['csapat_a']."</td>
+                    <td>".$seged['csapat_a_gol']."</td>
+                    <td>".$seged['csapat_b']."</td>
+                    <td>".$seged['csapat_b_gol']."</td>
+                    <td>".$seged['idopont']."</td>
+                    <td>".$eredmeny."</td>";
+                    echo "<td><button onclick='proba('kurva')'>Proba</button></td>
+                    </tr>";
+                }
+            }  else {
+                echo "Nincsenek fent csapatok :(";
+            }
+        ?>
+    </table>
+    <form action="includes/admin.inc.php" method="post" id="meccsEredmForm"></form>
 
     
 </body>
