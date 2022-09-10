@@ -78,5 +78,18 @@
     }
 
     if(isset($_POST["submitMeccsEredm"])) {
-        
+        $id = $_POST['id'];
+        $csapat_a = $_POST['csapat_a'];
+        $csapat_a_gol = $_POST['csapat_a_gol'];
+        $csapat_b = $_POST['csapat_b'];
+        $csapat_b_gol = $_POST['csapat_b_gol'];
+        $idopont = $_POST['idopont'];
+        $eredmeny = $_POST['eredmeny'];
+
+        if(!emptyInputMeccsek($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny)) {
+            header("location: ../admin.php?error=emptyinputmeccsek");
+            exit();
+        }
+
+        meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny);
     }

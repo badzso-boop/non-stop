@@ -164,7 +164,7 @@
             <th>Csapat B Gól</th>
             <th>időpont</th>
             <th>Eredmény</th>
-            <th></th>
+            <th>0 -> döntetlen; 1 -> a; 2 -> b</th>
         </tr>
         <?php 
             require_once 'includes/dbh.inc.php';
@@ -193,7 +193,8 @@
                     <td>".$seged['csapat_b_gol']."</td>
                     <td>".$seged['idopont']."</td>
                     <td>".$eredmeny."</td>";
-                    echo "<td><button onclick='proba('kurva')'>Proba</button></td>
+
+                    echo "<td><button onclick='meccsSzerkeszteseJS(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].")'>Eredmény rögzítése</button></td>
                     </tr>";
                 }
             }  else {
