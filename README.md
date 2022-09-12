@@ -24,6 +24,8 @@
 5. Döntő számoló
     - minden csapatnak kiszámolja a pontokat
     - dontobe jutott csapatok kilistazasa
+    - Vegigmegy a csapatokon es mellette az osszes meccsen es ahol az a csapat nyert felirja hogy +3 a dontetlennel meg +1 es mindketto csapatnak megadja a golok szerint a pontot
+    - Ha a csapat nyer, akkor kap 3 pontot, ha döntetlen, akkor mindkét csapat 1-1 pontot, ha veszít, akkor nem kap pontot?
 
 
 ## ADATBÁZIS TERV

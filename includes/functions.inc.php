@@ -170,3 +170,9 @@ function meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b,
 	header("location: ../admin.php?error=none");
 	exit();
 }
+
+function pontozas($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny) {
+	//NYERÉS csapatok kozt kikeresni a nyertes csapatot es megadni neki a pontot (3)
+	//DÖNTETLEN csapatok közt megkeresni mind2 csapatot és 1-1 pontot adni nekik
+}
+

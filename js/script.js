@@ -62,6 +62,7 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
     var inputCsNev = document.createElement("input");
     var inputPontszam = document.createElement("input");
     var buttonSubmit = document.createElement("button");
+    var buttonBack = document.createElement("button");
     var br = document.createElement("br");
     var segedInput = document.createElement("input");
 
@@ -86,6 +87,11 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
     segedInput.type = "number";
     segedInput.name = "szam";
     segedInput.style.display = "none";
+
+    buttonBack.type = "button";
+    buttonBack.name = "buttonBack";
+    buttonBack.id = "buttonBack";
+    buttonBack.innerHTML = "Vissza";
 
     form.appendChild(inputId);
     form.appendChild(inputCsNev);
@@ -119,6 +125,14 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
     }
 
     form.appendChild(buttonSubmit);
+    form.appendChild(buttonBack);
+
+    document.getElementById("buttonBack").addEventListener("click", async function() {
+        let form = document.getElementById("csapatSzerkForm");
+        while (form.firstChild) {
+            form.removeChild(form.firstChild);
+        }
+      });
 }
 
 function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, idopont, eredmeny) {
@@ -129,44 +143,58 @@ function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol,
     var inputCsapatB = document.createElement("input");
     var inputCsapatBGol = document.createElement("input");
     var inputIdopont = document.createElement("input");
-    var inputEredm = document.createElement("input");
     var buttonSubmit = document.createElement("button");
+    var buttonBack = document.createElement("button");
+
+    var csapatLista = ["Döntetlen", csapat_a, csapat_b];
+    var inputEredm = document.createElement("select");
 
     inputId.type = "number";
     inputId.name = "id";
+    inputId.id = "id";
     inputId.value = id;
     inputId.readOnly = true;
 
     inputCsapatA.type = "text";
     inputCsapatA.name = "csapat_a";
+    inputCsapatA.id = "csapat_a";
     inputCsapatA.value = csapat_a;
     inputCsapatA.readOnly = true;
 
     inputCsapatAGol.type = "number";
     inputCsapatAGol.name = "csapat_a_gol";
+    inputCsapatAGol.id = "csapat_a_gol";
     inputCsapatAGol.value = csapat_a_gol;
 
     inputCsapatB.type = "text";
     inputCsapatB.name = "csapat_b";
+    inputCsapatB.id = "csapat_b";
     inputCsapatB.value = csapat_b;
     inputCsapatB.readOnly = true;
 
     inputCsapatBGol.type = "number";
     inputCsapatBGol.name = "csapat_b_gol";
+    inputCsapatBGol.id = "csapat_b_gol";
     inputCsapatBGol.value = csapat_b_gol;
 
     inputIdopont.type = "time";
     inputIdopont.name = "idopont";
+    inputIdopont.id = "idopont";
     inputIdopont.value = idopont;
     inputIdopont.readOnly = true;
 
-    inputEredm.type = "number";
     inputEredm.name = "eredmeny";
+    inputEredm.id = "inputEredm";
 
     buttonSubmit.type = "submit";
     buttonSubmit.name = "submitMeccsEredm";
+    buttonSubmit.id = "submitMeccsEredm";
     buttonSubmit.innerHTML = "Mentés";
-    
+
+    buttonBack.type = "button";
+    buttonBack.name = "buttonBack";
+    buttonBack.id = "buttonBack";
+    buttonBack.innerHTML = "Vissza";
 
     form.appendChild(inputId);
     form.appendChild(inputCsapatA);
@@ -175,5 +203,21 @@ function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol,
     form.appendChild(inputCsapatBGol);
     form.appendChild(inputIdopont);
     form.appendChild(inputEredm);
+    for (let i = 0; i < csapatLista.length; i++) {
+        var option = document.createElement("option");
+        option.value = i;
+        option.text = csapatLista[i];
+        document.getElementById("inputEredm").appendChild(option);
+    }
+
     form.appendChild(buttonSubmit);
+    form.appendChild(buttonBack);
+
+    document.getElementById("buttonBack").addEventListener("click", async function() {
+        let form = document.getElementById("meccsEredmForm");
+        while (form.firstChild) {
+            form.removeChild(form.firstChild);
+        }
+      });
 }
+

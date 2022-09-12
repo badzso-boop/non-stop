@@ -92,4 +92,6 @@
         }
 
         meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny);
+
+        pontozas($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny);
     }

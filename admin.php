@@ -164,7 +164,7 @@
             <th>Csapat B Gól</th>
             <th>időpont</th>
             <th>Eredmény</th>
-            <th>0 -> döntetlen; 1 -> a; 2 -> b</th>
+            <th></th>
         </tr>
         <?php 
             require_once 'includes/dbh.inc.php';
@@ -203,6 +203,17 @@
         ?>
     </table>
     <form action="includes/admin.inc.php" method="post" id="meccsEredmForm"></form>
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    
+    <form action="includes/admin.inc.php" method = "post">
+        <buttont type="submit" name = "donto">Döntő számítás</buttont>
+    </form>
 
     
 </body>
