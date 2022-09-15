@@ -107,6 +107,16 @@
     <hr style="width: 75%;">
 
     <h1>Meccsek feltöltése</h1>
+    <h4>Késés rögzítése</h4>
+    <form action="includes/admin.inc.php" method="post">
+        <label for="keses">Perc</label>
+        <input type="number" name="keses">
+        <button type="submit" name="submitKeses">Késés Rögzítése</button>
+    </form>
+
+    
+    <br>
+    <br>
 
     <form action="includes/admin.inc.php" method="post">
         <label for="csapat_a">Csapat A</label>
@@ -148,6 +158,8 @@
 
         <br>
 
+        <label for="datum">Meccs dátuma:</label>
+        <input type="date" name="datum">
         <label for="idopont">Meccs időpontja:</label>
         <input type="time" name="idopont">
         <input type="number" name="eredmeny" value="-1" style="display:none">
@@ -155,15 +167,20 @@
         <button type="submit" name="submitMeccs">Mentés</button>
     </form>
 
-    <table>
+    <br>
+    <br>
+
+    <table id="meccsTable">
         <tr>
             <th>Id</th>
             <th>Csapat A</th>
             <th>Csapat A gól</th>
             <th>Csapat B</th>
             <th>Csapat B Gól</th>
+            <th>Dátum</th>
             <th>időpont</th>
             <th>Eredmény</th>
+            <th></th>
             <th></th>
         </tr>
         <?php 
@@ -172,6 +189,7 @@
 
             $meccsek = meccsekLekerese($conn);
 
+            $k = 0;
             if ($meccsek->num_rows > 0) {
                 while($seged = $meccsek->fetch_assoc()) {
                     $eredmeny;
@@ -191,11 +209,13 @@
                     <td>".$seged['csapat_a_gol']."</td>
                     <td>".$seged['csapat_b']."</td>
                     <td>".$seged['csapat_b_gol']."</td>
-                    <td>".$seged['idopont']."</td>
+                    <td>".$seged['datum']."</td>
+                    <td id='".$k."idopont'>".$seged['idopont']."</td>
                     <td>".$eredmeny."</td>";
 
-                    echo "<td><button onclick='meccsSzerkeszteseJS(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].")'>Eredmény rögzítése</button></td>
-                    </tr>";
+                    echo "<td><button onclick='meccsSzerkeszteseJS(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].")'>Eredmény rögzítése</button></td>";
+                    echo "</tr>";
+                    $k++;
                 }
             }  else {
                 echo "Nincsenek fent csapatok :(";

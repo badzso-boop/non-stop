@@ -132,15 +132,15 @@ function emptyInputMeccsek($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $
     return $result;
 }
 
-function meccsFeltoltese($conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny) {
-	$sql = "INSERT INTO meccsek (csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, idopont, eredmeny) VALUES (?, ?, ?, ?, ?, ?)";
+function meccsFeltoltese($conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $datum, $idopont, $eredmeny) {
+	$sql = "INSERT INTO meccsek (csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	$stmt = mysqli_stmt_init($conn);
 	if (!mysqli_stmt_prepare($stmt, $sql)) {
 	 	header("location: ../admin.php?error=stmtfailed");
 		exit();
 	}
 
-	mysqli_stmt_bind_param($stmt, "ssssss", $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny);
+	mysqli_stmt_bind_param($stmt, "sssssss", $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $datum, $idopont, $eredmeny);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 	mysqli_close($conn);
@@ -176,3 +176,37 @@ function pontozas($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny)
 	//DÖNTETLEN csapatok közt megkeresni mind2 csapatot és 1-1 pontot adni nekik
 }
 
+function kesesRogzitese($conn, $mysqli, $keses) {
+	//lekerem a meccseket majd vegigmegyek rajtuk es az id alapjan updatelem az osszesnek az idejet
+	$meccsek = meccsekLekerese($conn);
+
+	$sql = "";
+	if ($meccsek->num_rows > 0) {
+		while($seged = $meccsek->fetch_assoc()) {
+			$ido = $seged["idopont"];
+
+			$segedsz = strtotime($ido);
+			$date = date("H:i", $segedsz);
+	
+			$time = new DateTime($date);
+			$time->add(new DateInterval('PT' . $keses . 'M'));
+	
+			$stamp = $time->format('H:i');
+
+			$sql .= "UPDATE meccsek SET csapat_a = '".$seged["csapat_a"]."', csapat_a_gol = ".$seged["csapat_a_gol"].", csapat_b = '".$seged["csapat_b"]."', csapat_b_gol = ".$seged["csapat_b_gol"].", idopont = '".$stamp."', eredmeny = ".$seged["eredmeny"]." WHERE id = ".$seged["id"].";";
+		}
+	}
+	$mysqli->multi_query($sql);
+
+	print $sql;
+
+	do {
+		if ($result = $mysqli->store_result()) {
+			var_dump($result->fetch_all());
+			$result->free();
+		}
+	} while ($mysqli->next_result());
+	
+	header("location: ../admin.php?error=none");
+	exit();
+}

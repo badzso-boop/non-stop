@@ -135,13 +135,14 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
       });
 }
 
-function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, idopont, eredmeny) {
+function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny) {
     var form = document.getElementById("meccsEredmForm");
     var inputId = document.createElement("input");
     var inputCsapatA = document.createElement("input");
     var inputCsapatAGol = document.createElement("input");
     var inputCsapatB = document.createElement("input");
     var inputCsapatBGol = document.createElement("input");
+    var inputDatum = document.createElement("input");
     var inputIdopont = document.createElement("input");
     var buttonSubmit = document.createElement("button");
     var buttonBack = document.createElement("button");
@@ -183,6 +184,12 @@ function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol,
     inputIdopont.value = idopont;
     inputIdopont.readOnly = true;
 
+    inputIdopont.type = "date";
+    inputIdopont.name = "datum";
+    inputIdopont.id = "datum";
+    inputIdopont.value = datum;
+    inputIdopont.readOnly = true;
+
     inputEredm.name = "eredmeny";
     inputEredm.id = "inputEredm";
 
@@ -220,4 +227,3 @@ function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol,
         }
       });
 }
-

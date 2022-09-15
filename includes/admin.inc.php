@@ -66,6 +66,7 @@
         $csapat_b = $_POST["csapat_b"];
         $csapat_b_gol = $_POST["csapat_b_gol"];
 
+        $datum = $_POST["datum"];
         $idopont = $_POST["idopont"];
         $eredmeny = $_POST["eredmeny"];
 
@@ -74,7 +75,7 @@
             exit();
         }
 
-        meccsFeltoltese($conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny);
+        meccsFeltoltese($conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol,$datum,  $idopont, $eredmeny);
     }
 
     if(isset($_POST["submitMeccsEredm"])) {
@@ -83,6 +84,7 @@
         $csapat_a_gol = $_POST['csapat_a_gol'];
         $csapat_b = $_POST['csapat_b'];
         $csapat_b_gol = $_POST['csapat_b_gol'];
+
         $idopont = $_POST['idopont'];
         $eredmeny = $_POST['eredmeny'];
 
@@ -94,4 +96,10 @@
         meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny);
 
         pontozas($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny);
+    }
+
+    if(isset($_POST["submitKeses"])) {
+        $keses = $_POST["keses"];
+        
+        kesesRogzitese($conn, $mysqli, $keses);
     }
