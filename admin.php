@@ -67,12 +67,13 @@
 
     <h1>Csapatok listája:</h1>
 
-    <table>
+    <table id = "csapatokTable">
         <tr>
             <td>Id</td>
             <td>Csapatnév</td>
             <td>Csapattagok</td>
             <td>Pontszám</td>
+            <td></td>
             <td></td>
         </tr>
         <?php 
@@ -87,22 +88,23 @@
                     $szam = count($tomb) - 1;
                     
                     echo "<tr><td>".$seged["id"]."</td>";
-                    echo "<td>".$seged["csapat_nev"]."</td>";
+                    echo "<td class='csapat_nev'>".$seged["csapat_nev"]."</td>";
                     echo "<td><ul>";
                     for ($i=0; $i < $szam; $i++) { 
                         echo "<li>".$tomb[$i]."</li>";
                     }
                     echo "</ul></td>";
                     echo "<td>".$seged["pontszam"]."</td>";
-                    echo "<td><button onclick='csapatokSzerkesztesJS(".$seged["id"].",".json_encode($seged["csapat_nev"]).",".json_encode($seged["csapat_tagok"]).",".$seged["pontszam"].")'>Szerkesztés</button></td></tr>";
+                    echo "<td><button onclick='csapatokSzerkesztesJS(".$seged["id"].",".json_encode($seged["csapat_nev"]).",".json_encode($seged["csapat_tagok"]).",".$seged["pontszam"].")'>Szerkesztés</button></td>";
+                    echo "<td><button onclick='csapatokTorleseJS(".$seged["id"].",".json_encode($seged["csapat_nev"]).")'>Törlés</button></td></tr>";
                 }
             } else {
                 echo "Nincsenek fent csapatok :(";
             }
         ?>
     </table>
-    <form action="includes/admin.inc.php" method="post" id="csapatSzerkForm">
-    </form>
+    <form action="includes/admin.inc.php" method="post" id="csapatSzerkForm"></form>
+    <form action="includes/admin.inc.php" method="post" id="csapatTorleseForm"></form>
 
     <hr style="width: 75%;">
 
@@ -180,10 +182,11 @@
             <th>Dátum</th>
             <th>időpont</th>
             <th>Eredmény</th>
+            <th>Büntető</th>
             <th></th>
             <th></th>
         </tr>
-        <?php 
+        <?php
             require_once 'includes/dbh.inc.php';
             require_once 'includes/functions.inc.php';
 
@@ -203,6 +206,13 @@
                         $eredmeny = "Döntetlen";
                     }
 
+                    $bunteto;
+                    if ($seged["bunteto"] == 1) {
+                        $bunteto = "Igen";
+                    } else {
+                        $bunteto = "Nem";
+                    }
+
                     echo "<tr>
                     <td>".$seged['id']."</td>
                     <td>".$seged['csapat_a']."</td>
@@ -211,10 +221,12 @@
                     <td>".$seged['csapat_b_gol']."</td>
                     <td>".$seged['datum']."</td>
                     <td id='".$k."idopont'>".$seged['idopont']."</td>
-                    <td>".$eredmeny."</td>";
+                    <td>".$eredmeny."</td>
+                    <td>".$bunteto."</td>";
 
-                    echo "<td><button onclick='meccsSzerkeszteseJS(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].")'>Eredmény rögzítése</button></td>";
-                    echo "</tr>";
+                    echo "<td><button onclick='meccsEredmenyRogzitese(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].", ".json_encode($seged["datum"]).", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].", ".$seged["bunteto"].")'>Eredmény rögzítése</button></td>";
+                    echo "<td><button onclick='meccsSzerkesztese(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].",".json_encode($seged["datum"]).", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].")'>Meccs szerkesztése</button></td>";
+                    echo "<td><button onclick='adottMeccsTorlese(".$seged['id'].", ".json_encode($seged["csapat_a"]).", ".json_encode($seged["csapat_b"]).")'>Meccs Törlése</button></td></tr>";
                     $k++;
                 }
             }  else {
@@ -222,6 +234,7 @@
             }
         ?>
     </table>
+    <form action="includes/admin.inc.php" method="post" id="meccsTorles"></form>
     <form action="includes/admin.inc.php" method="post" id="meccsEredmForm"></form>
 
     <br>
@@ -232,9 +245,8 @@
     <br>
     
     <form action="includes/admin.inc.php" method = "post">
-        <buttont type="submit" name = "donto">Döntő számítás</buttont>
+        <button type="submit" name = "donto">Döntő számítás</button>
     </form>
 
-    
 </body>
 </html>

@@ -20,6 +20,7 @@
         LoginUser($conn, $uname, $pwd);
     }
 
+    //Csapat feltoltese
     if(isset($_POST["submitCS"])) {
         $csapatNev = $_POST["csapatnev"];
         $csapatTSzam = $_POST["szam"];
@@ -40,6 +41,7 @@
         csapatFeltoltese($conn, $csapatNev, $csapatTagok, $pontszam);
     }
 
+    //Csapat Szerkesztese
     if(isset($_POST["submitCsSzerk"])) {
         $id = $_POST["id"];
         $csapatNev = $_POST["csapat_nev"];
@@ -59,6 +61,13 @@
         csapatSzerkesztese($conn, $id, $csapatNev, $csapatTagok, $pontszam);
     }
 
+    if(isset($_POST["submitCsTorles"])) {
+        $id = $_POST["id"];
+
+        csapatTorlese($conn, $id);
+    }
+
+    //Meccs feltöltése
     if(isset($_POST["submitMeccs"])) {
         $csapat_a = $_POST["csapat_a"];
         $csapat_a_gol = $_POST["csapat_a_gol"];
@@ -78,6 +87,7 @@
         meccsFeltoltese($conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol,$datum,  $idopont, $eredmeny);
     }
 
+    //Meccs Eredmény rögzítése
     if(isset($_POST["submitMeccsEredm"])) {
         $id = $_POST['id'];
         $csapat_a = $_POST['csapat_a'];
@@ -85,21 +95,56 @@
         $csapat_b = $_POST['csapat_b'];
         $csapat_b_gol = $_POST['csapat_b_gol'];
 
+        $datum = $_POST["datum"];
         $idopont = $_POST['idopont'];
         $eredmeny = $_POST['eredmeny'];
+        $bunteto = $_POST["bunteto"];
+
+        if ($bunteto == true) {
+            $buntetoEredm = 1;
+        } else {
+            $buntetoEredm = 0;
+        }
 
         if(!emptyInputMeccsek($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny)) {
             header("location: ../admin.php?error=emptyinputmeccsek");
             exit();
         }
 
-        meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny);
+        meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm);
 
         pontozas($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny);
     }
 
+    //Késés rögzítése
     if(isset($_POST["submitKeses"])) {
         $keses = $_POST["keses"];
         
         kesesRogzitese($conn, $mysqli, $keses);
+    }
+
+    //Meccs törlése
+    if (isset($_POST["adottMeccsTorlese"])) {
+        $id = $_POST["id"];
+
+        meccsTorlese($conn, $id);
+    }
+
+    //Meccs Sszerkesztése
+    if (isset($_POST["SubmitMeccsSzerk"])) {
+        $id = $_POST['id'];
+        $csapat_a = $_POST['csapat_a'];
+        $csapat_a_gol = $_POST['csapat_a_gol'];
+        $csapat_b = $_POST['csapat_b'];
+        $csapat_b_gol = $_POST['csapat_b_gol'];
+
+        $datum = $_POST["datum"];
+        $idopont = $_POST['idopont'];
+
+        if(!emptyInputMeccsek($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny)) {
+            header("location: ../admin.php?error=emptyinputmeccsek");
+            exit();
+        }
+
+        MeccsSzerkesztese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol,$datum, $idopont, $eredmeny);
     }

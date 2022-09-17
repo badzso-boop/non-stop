@@ -64,8 +64,10 @@ CREATE TABLE csapatok (
 - csapat_a_gol || INT(15)
 - csapat_b     || VARCHAR(255)
 - csapat_b_gol || INT(15)
+- datum        || DATE
 - idopont      || TIME
 - eredmeny     || INT(15)
+- bunteto      || INT(1)
 
 CREATE TABLE meccsek (
     id INT(15) NOT NULL UNIQUE AUTO_INCREMENT,
@@ -75,7 +77,8 @@ CREATE TABLE meccsek (
     csapat_b_gol INT(15),
     datum DATE,
     idopont TIME,
-    eredmeny INT(15)
+    eredmeny INT(15),
+    bunteto INT(1)
 );
 
 ---

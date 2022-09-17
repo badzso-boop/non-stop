@@ -56,10 +56,11 @@
                             <th>Dátum</th>
                             <th>Késés</th>
                             <th>Csapat A</th>
-                            <th>Csapat A gól</th>
                             <th>Csapat B</th>
+                            <th>Csapat A gól</th>
                             <th>Csapat B Gól</th>
                             <th>Eredmény</th>
+                            <th>Büntetővel</th>
                         </tr>
                     </thead>
                     <?php 
@@ -82,15 +83,23 @@
                                     $eredmeny = "Döntetlen";
                                 }
 
+                                $bunteto;
+                                if ($seged["bunteto"] == 1) {
+                                    $bunteto = "Igen";
+                                } else {
+                                    $bunteto = "Nem";
+                                }
+
                                 echo "<tr class='text-center'>
                                 <td id='".$k."idopont'>".$seged['idopont']."</td>
                                 <td>".$seged["datum"]."</td>
                                 <td></td>
                                 <td>".$seged['csapat_a']."</td>
-                                <td>".$seged['csapat_a_gol']."</td>
                                 <td>".$seged['csapat_b']."</td>
+                                <td>".$seged['csapat_a_gol']."</td>
                                 <td>".$seged['csapat_b_gol']."</td>
-                                <td>".$eredmeny."</td></tr>";
+                                <td>".$eredmeny."</td>
+                                <td>".$bunteto."</td></tr>";
                                 $k++;
                             }
                         }  else {

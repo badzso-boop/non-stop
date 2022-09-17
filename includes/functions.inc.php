@@ -121,6 +121,22 @@ function csapatSzerkesztese($conn, $id, $csapatNev, $csapatTagok, $pontszam) {
 	exit();
 }
 
+function csapatTorlese($conn, $id) {
+	$sql = "DELETE FROM csapatok WHERE id = ?;";
+	$stmt = mysqli_stmt_init($conn);
+	if (!mysqli_stmt_prepare($stmt, $sql)) {
+	 	header("location: ../admin.php?error=stmtfailed");
+		exit();
+	}
+
+	mysqli_stmt_bind_param($stmt, "s", $id);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
+	mysqli_close($conn);
+	header("location: ../admin.php?error=none");
+	exit();
+}
+
 function emptyInputMeccsek($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny) {
 	$result;
 	if(empty($csapat_a) || empty($csapat_a_gol) || empty($csapat_b) || empty($csapat_b_gol) || empty($idopont) || empty($eredmeny)) {
@@ -155,15 +171,15 @@ function meccsekLekerese($conn) {
 	return $result;
 }
 
-function meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny) {
-	$sql = "UPDATE meccsek SET  csapat_a = ?, csapat_a_gol = ?, csapat_b = ?, csapat_b_gol = ?, idopont = ?, eredmeny = ? WHERE id = ?;";
+function meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm) {
+	$sql = "UPDATE meccsek SET  csapat_a = ?, csapat_a_gol = ?, csapat_b = ?, csapat_b_gol = ?, idopont = ?, eredmeny = ?, bunteto = ? WHERE id = ?;";
 	$stmt = mysqli_stmt_init($conn);
 	if (!mysqli_stmt_prepare($stmt, $sql)) {
 	 	header("location: ../admin.php?error=stmtfailed");
 		exit();
 	}
 
-	mysqli_stmt_bind_param($stmt, "sssssss", $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $id);
+	mysqli_stmt_bind_param($stmt, "ssssssss", $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm, $id);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 	mysqli_close($conn);
@@ -176,9 +192,13 @@ function pontozas($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny)
 	//DÖNTETLEN csapatok közt megkeresni mind2 csapatot és 1-1 pontot adni nekik
 }
 
+//visszafele is mehessen a keses
 function kesesRogzitese($conn, $mysqli, $keses) {
 	//lekerem a meccseket majd vegigmegyek rajtuk es az id alapjan updatelem az osszesnek az idejet
 	$meccsek = meccsekLekerese($conn);
+
+	//az eredeti ido elmentese egy kulon oszlopba
+	//ha a keses = 0 akkor az eredeti ido kiirasa
 
 	$sql = "";
 	if ($meccsek->num_rows > 0) {
@@ -207,6 +227,38 @@ function kesesRogzitese($conn, $mysqli, $keses) {
 		}
 	} while ($mysqli->next_result());
 	
+	header("location: ../admin.php?error=none");
+	exit();
+}
+
+function meccsTorlese($conn, $id) {
+	$sql = "DELETE FROM meccsek WHERE id = ?;";
+	$stmt = mysqli_stmt_init($conn);
+	if (!mysqli_stmt_prepare($stmt, $sql)) {
+	 	header("location: ../admin.php?error=stmtfailed");
+		exit();
+	}
+
+	mysqli_stmt_bind_param($stmt, "s", $id);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
+	mysqli_close($conn);
+	header("location: ../admin.php?error=none");
+	exit();
+}
+
+function MeccsSzerkesztese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol,$datum, $idopont, $eredmeny) {
+	$sql = "UPDATE meccsek SET  csapat_a = ?, csapat_a_gol = ?, csapat_b = ?, csapat_b_gol = ?, datum = ?, idopont = ?, eredmeny = ? WHERE id = ?;";
+	$stmt = mysqli_stmt_init($conn);
+	if (!mysqli_stmt_prepare($stmt, $sql)) {
+	 	header("location: ../admin.php?error=stmtfailed");
+		exit();
+	}
+
+	mysqli_stmt_bind_param($stmt, "ssssssss", $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $datum, $idopont, $eredmeny, $id);
+	mysqli_stmt_execute($stmt);
+	mysqli_stmt_close($stmt);
+	mysqli_close($conn);
 	header("location: ../admin.php?error=none");
 	exit();
 }

@@ -135,7 +135,45 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
       });
 }
 
-function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny) {
+function csapatokTorleseJS(id, csapat_nev) {
+    var form = document.getElementById("csapatSzerkForm");
+    var inputId = document.createElement("input");
+    var inputCsNev = document.createElement("p");
+
+    var buttonSubmit = document.createElement("button");
+    var buttonBack = document.createElement("button");
+
+    inputId.type = "number";
+    inputId.name = "id";
+    inputId.value = id;
+    inputId.style.display = "none";
+
+    inputCsNev.innerText = "Biztos törölni akarja a(z)" + csapat_nev + " csapatot?";
+
+    buttonSubmit.type = "submit";
+    buttonSubmit.name = "submitCsTorles";
+    buttonSubmit.innerHTML = "Törlés";
+
+    buttonBack.type = "button";
+    buttonBack.name = "buttonBack";
+    buttonBack.id = "buttonBack";
+    buttonBack.innerHTML = "Nem";
+
+    form.appendChild(inputId);
+    form.appendChild(inputCsNev);
+
+    form.appendChild(buttonSubmit);
+    form.appendChild(buttonBack);
+
+    document.getElementById("buttonBack").addEventListener("click", async function() {
+        let form = document.getElementById("csapatSzerkForm");
+        while (form.firstChild) {
+            form.removeChild(form.firstChild);
+        }
+      });
+}
+
+function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny, bunteto) {
     var form = document.getElementById("meccsEredmForm");
     var inputId = document.createElement("input");
     var inputCsapatA = document.createElement("input");
@@ -144,6 +182,10 @@ function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol,
     var inputCsapatBGol = document.createElement("input");
     var inputDatum = document.createElement("input");
     var inputIdopont = document.createElement("input");
+
+    var inputBuntetoLabel = document.createElement("label");
+    var inputBunteto = document.createElement("input");
+
     var buttonSubmit = document.createElement("button");
     var buttonBack = document.createElement("button");
 
@@ -184,14 +226,26 @@ function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol,
     inputIdopont.value = idopont;
     inputIdopont.readOnly = true;
 
-    inputIdopont.type = "date";
-    inputIdopont.name = "datum";
-    inputIdopont.id = "datum";
-    inputIdopont.value = datum;
-    inputIdopont.readOnly = true;
+    inputDatum.type = "date";
+    inputDatum.name = "datum";
+    inputDatum.id = "datum";
+    inputDatum.value = datum;
+    inputDatum.readOnly = true;
 
     inputEredm.name = "eredmeny";
     inputEredm.id = "inputEredm";
+
+    inputBuntetoLabel.name = "bunteto";
+    inputBuntetoLabel.innerText = "Büntetővel nyert?";
+
+    if (bunteto == 1) {
+        inputBunteto.checked = true;
+    }
+
+    inputBunteto.type = "checkbox";
+    inputBunteto.name = "bunteto";
+    inputBunteto.id = "inputBunteto";
+    inputBunteto.style.margin = "15px";
 
     buttonSubmit.type = "submit";
     buttonSubmit.name = "submitMeccsEredm";
@@ -208,6 +262,7 @@ function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol,
     form.appendChild(inputCsapatAGol);
     form.appendChild(inputCsapatB);
     form.appendChild(inputCsapatBGol);
+    form.appendChild(inputDatum);
     form.appendChild(inputIdopont);
     form.appendChild(inputEredm);
     for (let i = 0; i < csapatLista.length; i++) {
@@ -216,6 +271,8 @@ function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol,
         option.text = csapatLista[i];
         document.getElementById("inputEredm").appendChild(option);
     }
+    form.appendChild(inputBuntetoLabel);
+    form.appendChild(inputBunteto);
 
     form.appendChild(buttonSubmit);
     form.appendChild(buttonBack);
@@ -226,4 +283,118 @@ function meccsSzerkeszteseJS(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol,
             form.removeChild(form.firstChild);
         }
       });
+}
+
+function meccsSzerkesztese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny) {
+    var table = document.getElementById("csapatokTable").getElementsByClassName("csapat_nev");
+
+    var form = document.getElementById("meccsEredmForm");
+    var inputId = document.createElement("input");
+    var inputCsapatAGol = document.createElement("input");
+    var inputCsapatBGol = document.createElement("input");
+    var inputDatum = document.createElement("input");
+    var inputIdopont = document.createElement("input");
+    var buttonSubmit = document.createElement("button");
+    var buttonBack = document.createElement("button");
+
+    var csapatLista = ["Döntetlen", csapat_a, csapat_b];
+
+    var inputCsapatA = document.createElement("select");
+    var inputCsapatB = document.createElement("select");
+
+    inputId.type = "number";
+    inputId.name = "id";
+    inputId.id = "id";
+    inputId.value = id;
+    inputId.readOnly = true;
+
+    inputCsapatA.name = "csapat_a";
+    inputCsapatA.id = "csapat_a";
+
+    inputCsapatAGol.type = "number";
+    inputCsapatAGol.name = "csapat_a_gol";
+    inputCsapatAGol.id = "csapat_a_gol";
+    inputCsapatAGol.value = csapat_a_gol;
+    inputCsapatAGol.readOnly = true;
+
+    inputCsapatB.name = "csapat_b";
+    inputCsapatB.id = "csapat_b";
+
+    inputCsapatBGol.type = "number";
+    inputCsapatBGol.name = "csapat_b_gol";
+    inputCsapatBGol.id = "csapat_b_gol";
+    inputCsapatBGol.value = csapat_b_gol;
+    inputCsapatBGol.readOnly = true;
+
+    inputIdopont.type = "time";
+    inputIdopont.name = "idopont";
+    inputIdopont.id = "idopont";
+    inputIdopont.value = idopont;
+
+    inputDatum.type = "date";
+    inputDatum.name = "datum";
+    inputDatum.id = "datum";
+    inputDatum.value = datum;
+
+    buttonSubmit.type = "submit";
+    buttonSubmit.name = "SubmitMeccsSzerk";
+    buttonSubmit.id = "SubmitMeccsSzerk";
+    buttonSubmit.innerHTML = "Mentés";
+
+    buttonBack.type = "button";
+    buttonBack.name = "buttonBack";
+    buttonBack.id = "buttonBack";
+    buttonBack.innerHTML = "Vissza";
+
+    form.appendChild(inputId);
+    form.appendChild(inputCsapatA);
+    for (let i = 0; i < table.length; i++) {
+        var option = document.createElement("option");
+        option.value = table[i].innerText; 
+        option.text = table[i].innerText;
+        document.getElementById("csapat_a").appendChild(option);
+    }
+    form.appendChild(inputCsapatAGol);
+    form.appendChild(inputCsapatB);
+    for (let i = 0; i < table.length; i++) {
+        var option = document.createElement("option");
+        option.value = table[i].innerText; 
+        option.text = table[i].innerText;
+        document.getElementById("csapat_b").appendChild(option);
+    }
+    form.appendChild(inputCsapatBGol);
+    form.appendChild(inputDatum);
+    form.appendChild(inputIdopont);
+    form.appendChild(buttonSubmit);
+    form.appendChild(buttonBack);
+
+    document.getElementById("buttonBack").addEventListener("click", async function() {
+        let form = document.getElementById("meccsEredmForm");
+        while (form.firstChild) {
+            form.removeChild(form.firstChild);
+        }
+      });
+}
+
+function adottMeccsTorlese(id, csapat_a, csapat_b) {
+    let form = document.getElementById("meccsTorles");
+
+    let input = document.createElement("input");
+    let button = document.createElement("button");
+    let h1 = document.createElement("h1");
+
+    input.type = "number";
+    input.name = "id";
+    input.value = id;
+    input.style.display = "none";
+
+    button.type = "submit";
+    button.name = "adottMeccsTorlese";
+    button.innerHTML = "Törlés";
+
+    h1.innerText = "Biztos törölni akarja a(z) " + csapat_a + " vs. " + csapat_b + " mérkőzést?";
+
+    form.appendChild(h1);
+    form.appendChild(input);
+    form.appendChild(button);
 }
