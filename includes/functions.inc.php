@@ -149,14 +149,15 @@ function emptyInputMeccsek($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $
 }
 
 function meccsFeltoltese($conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $datum, $idopont, $eredmeny) {
-	$sql = "INSERT INTO meccsek (csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny) VALUES (?, ?, ?, ?, ?, ?, ?)";
+	$sql = "INSERT INTO meccsek (csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny, bunteto) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	$stmt = mysqli_stmt_init($conn);
 	if (!mysqli_stmt_prepare($stmt, $sql)) {
 	 	header("location: ../admin.php?error=stmtfailed");
 		exit();
 	}
 
-	mysqli_stmt_bind_param($stmt, "sssssss", $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $datum, $idopont, $eredmeny);
+	$bunteto = 0;
+	mysqli_stmt_bind_param($stmt, "ssssssss", $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $datum, $idopont, $eredmeny, $bunteto);
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 	mysqli_close($conn);
@@ -183,13 +184,54 @@ function meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b,
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 	mysqli_close($conn);
-	header("location: ../admin.php?error=none");
-	exit();
 }
 
-function pontozas($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny) {
+function pontozas($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny, $buntetoEredm) {
 	//NYERÉS csapatok kozt kikeresni a nyertes csapatot es megadni neki a pontot (3)
 	//DÖNTETLEN csapatok közt megkeresni mind2 csapatot és 1-1 pontot adni nekik
+
+	//hazi foci bajnoksag
+
+	//nyer -> 3 pont
+	//dontetlen -> buntetovel 2 pont vesztes 1 pont
+
+	$pontszamA = 0;
+	$pontszamB = 0;
+	$sql = "";
+	//[0 -> döntetlen; 1 -> a; 2 -> b]
+	if ($eredmeny == 1 && $buntetoEredm == 1) {
+		//Nyert az A csapat! A: 2pont B: 1pont
+		$pontszamA = 2;
+		$pontszamB = 1;
+		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamA." WHERE csapat_nev = '".$csapat_a."';";
+		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamB." WHERE csapat_nev = '".$csapat_b."';";
+	} else if ($eredmeny == 1 && $buntetoEredm == 0) {
+		//Nyert az A csapat!
+		$pontszamA = 3;
+		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamA." WHERE csapat_nev = '".$csapat_a."';";
+	} else if ($eredmeny == 2 && $buntetoEredm == 1) {
+		//Nyert a B csapat! B: 2pont A: 1pont
+		$pontszamA = 1;
+		$pontszamB = 2;
+		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamA." WHERE csapat_nev = '".$csapat_a."';";
+		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamB." WHERE csapat_nev = '".$csapat_b."';";
+	} else if ($eredmeny == 2 && $buntetoEredm == 0) {
+		//Nyert a B csapat!
+		$pontszamB = 3;
+		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamB." WHERE csapat_nev = '".$csapat_b."';";
+	} else if ($eredmeny == 0) {
+		//döntetlen
+	}
+	$mysqli->multi_query($sql);
+
+	print ($sql);
+
+	do {
+		if ($result = $mysqli->store_result()) {
+			var_dump($result->fetch_all());
+			$result->free();
+		}
+	} while ($mysqli->next_result());
 }
 
 //visszafele is mehessen a keses

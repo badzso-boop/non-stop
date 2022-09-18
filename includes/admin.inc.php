@@ -98,7 +98,7 @@
         $datum = $_POST["datum"];
         $idopont = $_POST['idopont'];
         $eredmeny = $_POST['eredmeny'];
-        $bunteto = $_POST["bunteto"];
+        $bunteto = $_POST['bunteto'];
 
         if ($bunteto == true) {
             $buntetoEredm = 1;
@@ -113,7 +113,10 @@
 
         meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm);
 
-        pontozas($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny);
+        pontozas($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny, $buntetoEredm);
+
+        header("location: ../admin.php?error=none");
+	    exit();
     }
 
     //Késés rögzítése

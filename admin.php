@@ -68,14 +68,16 @@
     <h1>Csapatok listája:</h1>
 
     <table id = "csapatokTable">
-        <tr>
-            <td>Id</td>
-            <td>Csapatnév</td>
-            <td>Csapattagok</td>
-            <td>Pontszám</td>
-            <td></td>
-            <td></td>
-        </tr>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Csapatnév</th>
+                <th>Csapattagok</th>
+                <th>Pontszám</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
         <?php 
             require_once 'includes/dbh.inc.php';
             require_once 'includes/functions.inc.php';
@@ -89,7 +91,7 @@
                     
                     echo "<tr><td>".$seged["id"]."</td>";
                     echo "<td class='csapat_nev'>".$seged["csapat_nev"]."</td>";
-                    echo "<td><ul>";
+                    echo "<td><ul style='list-style: none;'>";
                     for ($i=0; $i < $szam; $i++) { 
                         echo "<li>".$tomb[$i]."</li>";
                     }
@@ -213,20 +215,37 @@
                         $bunteto = "Nem";
                     }
 
-                    echo "<tr>
-                    <td>".$seged['id']."</td>
-                    <td>".$seged['csapat_a']."</td>
-                    <td>".$seged['csapat_a_gol']."</td>
-                    <td>".$seged['csapat_b']."</td>
-                    <td>".$seged['csapat_b_gol']."</td>
-                    <td>".$seged['datum']."</td>
-                    <td id='".$k."idopont'>".$seged['idopont']."</td>
-                    <td>".$eredmeny."</td>
-                    <td>".$bunteto."</td>";
+                    if ($eredmeny == "Nincs rögzítve") {
+                        echo "<tr style = 'background-color: rgba(235, 190, 190, 0.5);'>
+                        <td>".$seged['id']."</td>
+                        <td>".$seged['csapat_a']."</td>
+                        <td>".$seged['csapat_a_gol']."</td>
+                        <td>".$seged['csapat_b']."</td>
+                        <td>".$seged['csapat_b_gol']."</td>
+                        <td>".$seged['datum']."</td>
+                        <td id='".$k."idopont'>".$seged['idopont']."</td>
+                        <td>".$eredmeny."</td>
+                        <td>".$bunteto."</td>";
 
-                    echo "<td><button onclick='meccsEredmenyRogzitese(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].", ".json_encode($seged["datum"]).", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].", ".$seged["bunteto"].")'>Eredmény rögzítése</button></td>";
-                    echo "<td><button onclick='meccsSzerkesztese(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].",".json_encode($seged["datum"]).", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].")'>Meccs szerkesztése</button></td>";
-                    echo "<td><button onclick='adottMeccsTorlese(".$seged['id'].", ".json_encode($seged["csapat_a"]).", ".json_encode($seged["csapat_b"]).")'>Meccs Törlése</button></td></tr>";
+                        echo "<td><button onclick='meccsEredmenyRogzitese(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].", ".json_encode($seged["datum"]).", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].", ".$seged["bunteto"].")'>Eredmény rögzítése</button></td>";
+                        echo "<td><button onclick='meccsSzerkesztese(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].",".json_encode($seged["datum"]).", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].")'>Meccs szerkesztése</button></td>";
+                        echo "<td><button onclick='adottMeccsTorlese(".$seged['id'].", ".json_encode($seged["csapat_a"]).", ".json_encode($seged["csapat_b"]).")'>Meccs Törlése</button></td></tr>";
+                    } else {
+                        echo "<tr style = 'background-color: rgba(190, 235, 190, 0.5);'>
+                        <td>".$seged['id']."</td>
+                        <td>".$seged['csapat_a']."</td>
+                        <td>".$seged['csapat_a_gol']."</td>
+                        <td>".$seged['csapat_b']."</td>
+                        <td>".$seged['csapat_b_gol']."</td>
+                        <td>".$seged['datum']."</td>
+                        <td id='".$k."idopont'>".$seged['idopont']."</td>
+                        <td>".$eredmeny."</td>
+                        <td>".$bunteto."</td>";
+
+                        echo "<td><button onclick='meccsEredmenyRogzitese(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].", ".json_encode($seged["datum"]).", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].", ".$seged["bunteto"].")'>Eredmény rögzítése</button></td>";
+                        echo "<td><button onclick='meccsSzerkesztese(".$seged['id'].", ".json_encode($seged['csapat_a']).", ".$seged['csapat_a_gol'].", ".json_encode($seged['csapat_b']).",".$seged['csapat_b_gol'].",".json_encode($seged["datum"]).", ".json_encode($seged['idopont']).", ".$seged['eredmeny'].")'>Meccs szerkesztése</button></td>";
+                        echo "<td><button onclick='adottMeccsTorlese(".$seged['id'].", ".json_encode($seged["csapat_a"]).", ".json_encode($seged["csapat_b"]).")'>Meccs Törlése</button></td></tr>";
+                    }
                     $k++;
                 }
             }  else {

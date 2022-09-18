@@ -49,6 +49,7 @@
         <div class="row">
             <div class="col">
                 <h3 class="text-center m-5">Meccsek</h3>
+
                 <table id="meccsTable" class="table table-hover">
                     <thead class="thead-light">
                         <tr class="text-center">

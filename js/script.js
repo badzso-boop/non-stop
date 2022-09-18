@@ -184,7 +184,7 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     var inputIdopont = document.createElement("input");
 
     var inputBuntetoLabel = document.createElement("label");
-    var inputBunteto = document.createElement("input");
+    var inputBunteto = document.createElement("select");
 
     var buttonSubmit = document.createElement("button");
     var buttonBack = document.createElement("button");
@@ -238,14 +238,8 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     inputBuntetoLabel.name = "bunteto";
     inputBuntetoLabel.innerText = "Büntetővel nyert?";
 
-    if (bunteto == 1) {
-        inputBunteto.checked = true;
-    }
-
-    inputBunteto.type = "checkbox";
     inputBunteto.name = "bunteto";
     inputBunteto.id = "inputBunteto";
-    inputBunteto.style.margin = "15px";
 
     buttonSubmit.type = "submit";
     buttonSubmit.name = "submitMeccsEredm";
@@ -273,6 +267,13 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     }
     form.appendChild(inputBuntetoLabel);
     form.appendChild(inputBunteto);
+    szavak = ["Nem", "Igen"];
+    for (let i = 0; i < 2; i++) {
+        var option = document.createElement("option");
+        option.value = i;
+        option.text = szavak[i];
+        document.getElementById("inputBunteto").appendChild(option);
+    }
 
     form.appendChild(buttonSubmit);
     form.appendChild(buttonBack);
