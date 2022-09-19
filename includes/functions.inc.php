@@ -64,9 +64,8 @@ function LoginUser($conn, $uname, $pwd) {
 
         $_SESSION["id"] = $unameExists["id"];
         $_SESSION["uname"] = $unameExists["uname"];
-        $_SESSION["pwd"] = $unameExists["pwd"];
 
-        header("location: ../admin.php?error=none");
+		header("location: ../admin.php?error=none");
 		exit();
     }
 }

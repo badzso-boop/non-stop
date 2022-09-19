@@ -7,6 +7,7 @@ function inputok() {
     inputCsNev.type = "text";
     inputCsNev.name = "csapatnev";
     inputCsNev.placeholder = "Csapat név";
+    inputCsNev.classList.add('m-2');
 
     document.getElementById("csapatForm").appendChild(inputCsNev);
     document.getElementById("csapatForm").appendChild(br);
@@ -19,6 +20,7 @@ function inputok() {
         inputnev.placeholder = 'Név';
         inputnev.name = 'nev' + (i+1);
         inputnev.type = 'text';
+        inputnev.classList.add('m-2');
 
         inputosztaly.placeholder = 'Osztály';
         inputosztaly.name = 'osztaly' + (i+1);
@@ -46,6 +48,9 @@ function inputok() {
     button.type = "submit";
     button.name = "submitCS";
     button.innerHTML = "Mentés";
+    button.classList.add('btn');
+    button.classList.add('btn-secondary');
+    button.classList.add('m-2');
 
     document.getElementById("csapatForm").appendChild(inputmenny);
     document.getElementById("csapatForm").appendChild(inputPontszam);
@@ -74,6 +79,7 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
     inputCsNev.type = "text";
     inputCsNev.name = "csapat_nev";
     inputCsNev.value = csapat_nev;
+    inputCsNev.classList.add('m-2')
 
     inputPontszam.type = "number";
     inputPontszam.name = "pontszam";
@@ -83,6 +89,9 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
     buttonSubmit.type = "submit";
     buttonSubmit.name = "submitCsSzerk";
     buttonSubmit.innerHTML = "Mentés";
+    buttonSubmit.classList.add('btn');
+    buttonSubmit.classList.add('btn-secondary');
+    buttonSubmit.classList.add('m-2');
 
     segedInput.type = "number";
     segedInput.name = "szam";
@@ -92,6 +101,9 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
     buttonBack.name = "buttonBack";
     buttonBack.id = "buttonBack";
     buttonBack.innerHTML = "Vissza";
+    buttonBack.classList.add('btn');
+    buttonBack.classList.add('btn-secondary');
+    buttonBack.classList.add('m-2');
 
     form.appendChild(inputId);
     form.appendChild(inputCsNev);
@@ -114,10 +126,12 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
         inputCsTagN.type = "text";
         inputCsTagN.name = "nev" + szam;
         inputCsTagN.value = seged[0];
+        inputCsTagN.classList.add('m-2');
 
         inputCsTagO.type = "text";
         inputCsTagO.name = "osztaly" + szam;
         inputCsTagO.value = seged[1];
+        inputCsTagO.classList.add('m-2');
 
         form.appendChild(inputCsTagN);
         form.appendChild(inputCsTagO);
@@ -153,11 +167,17 @@ function csapatokTorleseJS(id, csapat_nev) {
     buttonSubmit.type = "submit";
     buttonSubmit.name = "submitCsTorles";
     buttonSubmit.innerHTML = "Törlés";
+    buttonSubmit.classList.add('btn');
+    buttonSubmit.classList.add('btn-secondary');
+    buttonSubmit.classList.add('m-2');
 
     buttonBack.type = "button";
     buttonBack.name = "buttonBack";
     buttonBack.id = "buttonBack";
     buttonBack.innerHTML = "Nem";
+    buttonBack.classList.add('btn');
+    buttonBack.classList.add('btn-secondary');
+    buttonBack.classList.add('m-2');
 
     form.appendChild(inputId);
     form.appendChild(inputCsNev);
@@ -197,59 +217,74 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     inputId.id = "id";
     inputId.value = id;
     inputId.readOnly = true;
+    inputId.classList.add('m-2');
 
     inputCsapatA.type = "text";
     inputCsapatA.name = "csapat_a";
     inputCsapatA.id = "csapat_a";
     inputCsapatA.value = csapat_a;
     inputCsapatA.readOnly = true;
+    inputCsapatA.classList.add('m-2');
 
     inputCsapatAGol.type = "number";
     inputCsapatAGol.name = "csapat_a_gol";
     inputCsapatAGol.id = "csapat_a_gol";
     inputCsapatAGol.value = csapat_a_gol;
+    inputCsapatAGol.classList.add('m-2');
 
     inputCsapatB.type = "text";
     inputCsapatB.name = "csapat_b";
     inputCsapatB.id = "csapat_b";
     inputCsapatB.value = csapat_b;
     inputCsapatB.readOnly = true;
+    inputCsapatB.classList.add('m-2');
 
     inputCsapatBGol.type = "number";
     inputCsapatBGol.name = "csapat_b_gol";
     inputCsapatBGol.id = "csapat_b_gol";
     inputCsapatBGol.value = csapat_b_gol;
+    inputCsapatBGol.classList.add('m-2');
 
     inputIdopont.type = "time";
     inputIdopont.name = "idopont";
     inputIdopont.id = "idopont";
     inputIdopont.value = idopont;
     inputIdopont.readOnly = true;
+    inputIdopont.classList.add('m-2');
 
     inputDatum.type = "date";
     inputDatum.name = "datum";
     inputDatum.id = "datum";
     inputDatum.value = datum;
     inputDatum.readOnly = true;
+    inputDatum.classList.add('m-2');
 
     inputEredm.name = "eredmeny";
     inputEredm.id = "inputEredm";
+    inputEredm.classList.add('m-2');
 
     inputBuntetoLabel.name = "bunteto";
     inputBuntetoLabel.innerText = "Büntetővel nyert?";
 
     inputBunteto.name = "bunteto";
     inputBunteto.id = "inputBunteto";
+    inputBunteto.classList.add('m-2');
 
     buttonSubmit.type = "submit";
     buttonSubmit.name = "submitMeccsEredm";
     buttonSubmit.id = "submitMeccsEredm";
     buttonSubmit.innerHTML = "Mentés";
+    buttonSubmit.classList.add('btn');
+    buttonSubmit.classList.add('btn-secondary');
+    buttonSubmit.classList.add('m-2');
 
     buttonBack.type = "button";
     buttonBack.name = "buttonBack";
     buttonBack.id = "buttonBack";
     buttonBack.innerHTML = "Vissza";
+    buttonBack.classList.add('btn');
+    buttonBack.classList.add('btn-secondary');
+    buttonBack.classList.add('m-2');
 
     form.appendChild(inputId);
     form.appendChild(inputCsapatA);
@@ -308,44 +343,57 @@ function meccsSzerkesztese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, d
     inputId.id = "id";
     inputId.value = id;
     inputId.readOnly = true;
+    inputId.classList.add('m-2');
 
     inputCsapatA.name = "csapat_a";
     inputCsapatA.id = "csapat_a";
+    inputCsapatA.classList.add('m-2');
 
     inputCsapatAGol.type = "number";
     inputCsapatAGol.name = "csapat_a_gol";
     inputCsapatAGol.id = "csapat_a_gol";
     inputCsapatAGol.value = csapat_a_gol;
     inputCsapatAGol.readOnly = true;
+    inputCsapatAGol.classList.add('m-2');
 
     inputCsapatB.name = "csapat_b";
     inputCsapatB.id = "csapat_b";
+    inputCsapatB.classList.add('m-2');
 
     inputCsapatBGol.type = "number";
     inputCsapatBGol.name = "csapat_b_gol";
     inputCsapatBGol.id = "csapat_b_gol";
     inputCsapatBGol.value = csapat_b_gol;
     inputCsapatBGol.readOnly = true;
+    inputCsapatBGol.classList.add('m-2');
 
     inputIdopont.type = "time";
     inputIdopont.name = "idopont";
     inputIdopont.id = "idopont";
     inputIdopont.value = idopont;
+    inputIdopont.classList.add('m-2');
 
     inputDatum.type = "date";
     inputDatum.name = "datum";
     inputDatum.id = "datum";
     inputDatum.value = datum;
+    inputDatum.classList.add('m-2');
 
     buttonSubmit.type = "submit";
     buttonSubmit.name = "SubmitMeccsSzerk";
     buttonSubmit.id = "SubmitMeccsSzerk";
     buttonSubmit.innerHTML = "Mentés";
+    buttonSubmit.classList.add('btn');
+    buttonSubmit.classList.add('btn-secondary');
+    buttonSubmit.classList.add('m-2');
 
     buttonBack.type = "button";
     buttonBack.name = "buttonBack";
     buttonBack.id = "buttonBack";
     buttonBack.innerHTML = "Vissza";
+    buttonBack.classList.add('btn');
+    buttonBack.classList.add('btn-secondary');
+    buttonBack.classList.add('m-2');
 
     form.appendChild(inputId);
     form.appendChild(inputCsapatA);
@@ -382,6 +430,7 @@ function adottMeccsTorlese(id, csapat_a, csapat_b) {
 
     let input = document.createElement("input");
     let button = document.createElement("button");
+    var buttonBack = document.createElement("button");
     let h1 = document.createElement("h1");
 
     input.type = "number";
@@ -392,10 +441,29 @@ function adottMeccsTorlese(id, csapat_a, csapat_b) {
     button.type = "submit";
     button.name = "adottMeccsTorlese";
     button.innerHTML = "Törlés";
+    button.classList.add('btn');
+    button.classList.add('btn-secondary');
+    button.classList.add('m-2');
+
+    buttonBack.type = "button";
+    buttonBack.name = "buttonBack";
+    buttonBack.id = "buttonBack";
+    buttonBack.innerHTML = "Nem";
+    buttonBack.classList.add('btn');
+    buttonBack.classList.add('btn-secondary');
+    buttonBack.classList.add('m-2');
 
     h1.innerText = "Biztos törölni akarja a(z) " + csapat_a + " vs. " + csapat_b + " mérkőzést?";
 
     form.appendChild(h1);
     form.appendChild(input);
     form.appendChild(button);
+    form.appendChild(buttonBack);
+
+    document.getElementById("buttonBack").addEventListener("click", async function() {
+        let form = document.getElementById("meccsTorles");
+        while (form.firstChild) {
+            form.removeChild(form.firstChild);
+        }
+      });
 }

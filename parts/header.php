@@ -10,21 +10,22 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/style.css">
     <title>Non-Stop</title>
 </head>
 
-<nav>
-    <ul>
-        <li>
-            <a href="index.php">Foolal</a>
-        </li>
-        <li>
-            <a href="admin.php">Admin oldal</a>
-        </li>
-        <li>
-            <a href="includes/logout.inc.php">Kilépés</a>
-        </li>
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg">
+  <a class="navbar-brand" href="index.php" target="_blank">Főoldal</a>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="admin.php">Admin oldal</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="includes/logout.inc.php">Kilépés</a>
+      </li>
     </ul>
+  </div>
 </nav>
 
 <body>

@@ -1,6 +1,19 @@
-<?php 
-    include_once 'parts/header.php';
-?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/script.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Non-Stop</title>
+</head>
+<body>
     <h1 class="text-center m-5">Fooldal</h1>
 
     <div class="container-sm">
@@ -43,6 +56,55 @@
             </div>
         </div>
     </div>
+
+    <div class="container-sm">
+        <div class="row">
+            <div class="col-sm">
+                <h3 class="text-center m-5">Csoportok</h3>
+                <table class="table table-hover">
+                    <thead class="thead-light">
+                        <th  style="border-right: 2px solid lightgrey;" class="text-center" colspan="2">9. - 10.</th=>
+                        <th class="text-center" colspan="3">11. - 12. - 13.</th>
+                    </thead>
+                    <tr class="text-center">
+                        <td>A Csoport</td>
+                        <td style="border-right: 2px solid lightgrey;">B Csoport</td>
+                        <td>A Csoport</td>
+                        <td>B Csoport</td>
+                        <td>C Csoport</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>9/C</td>
+                        <td style="border-right: 2px solid lightgrey;">9/E</td>
+                        <td>11/B</td>
+                        <td>11/D</td>
+                        <td>11/E</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>9/D</td>
+                        <td style="border-right: 2px solid lightgrey;">10/B</td>
+                        <td>12/D</td>
+                        <td>12/E</td>
+                        <td>12/C</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>10/A</td>
+                        <td style="border-right: 2px solid lightgrey;">10/C</td>
+                        <td>13/C</td>
+                        <td>13/E</td>
+                        <td>13/D</td>
+                    </tr>
+                    <tr class="text-center">
+                        <td>10/D</td>
+                        <td style="border-right: 2px solid lightgrey;">10/E</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
     
 
     <div class="container">
@@ -55,7 +117,6 @@
                         <tr class="text-center">
                             <th>időpont</th>
                             <th>Dátum</th>
-                            <th>Késés</th>
                             <th>Csapat A</th>
                             <th>Csapat B</th>
                             <th>Csapat A gól</th>
@@ -94,7 +155,6 @@
                                 echo "<tr class='text-center'>
                                 <td id='".$k."idopont'>".$seged['idopont']."</td>
                                 <td>".$seged["datum"]."</td>
-                                <td></td>
                                 <td>".$seged['csapat_a']."</td>
                                 <td>".$seged['csapat_b']."</td>
                                 <td>".$seged['csapat_a_gol']."</td>
