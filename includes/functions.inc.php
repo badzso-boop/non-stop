@@ -194,29 +194,44 @@ function pontozas($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b
 	//nyer -> 3 pont
 	//dontetlen -> buntetovel 2 pont vesztes 1 pont
 
+	$sql = "SELECT * FROM csapatok";
+	$csapatok = $mysqli->query($sql);
+	
 	$pontszamA = 0;
 	$pontszamB = 0;
+
+	if ($csapatok->num_rows > 0) {
+		while($seged = $csapatok->fetch_assoc()) {
+			if ($seged["csapat_nev"] == $csapat_a) {
+				$pontszamA = $seged["pontszam"];
+			}
+			if ($seged["csapat_nev"] == $csapat_b) {
+				$pontszamB = $seged["pontszam"];
+			}
+		}
+	}
+
 	$sql = "";
 	//[0 -> döntetlen; 1 -> a; 2 -> b]
 	if ($eredmeny == 1 && $buntetoEredm == 1) {
 		//Nyert az A csapat! A: 2pont B: 1pont
-		$pontszamA = 2;
-		$pontszamB = 1;
+		$pontszamA += 2;
+		$pontszamB += 1;
 		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamA." WHERE csapat_nev = '".$csapat_a."';";
 		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamB." WHERE csapat_nev = '".$csapat_b."';";
 	} else if ($eredmeny == 1 && $buntetoEredm == 0) {
 		//Nyert az A csapat!
-		$pontszamA = 3;
+		$pontszamA += 3;
 		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamA." WHERE csapat_nev = '".$csapat_a."';";
 	} else if ($eredmeny == 2 && $buntetoEredm == 1) {
 		//Nyert a B csapat! B: 2pont A: 1pont
-		$pontszamA = 1;
-		$pontszamB = 2;
+		$pontszamA += 1;
+		$pontszamB += 2;
 		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamA." WHERE csapat_nev = '".$csapat_a."';";
 		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamB." WHERE csapat_nev = '".$csapat_b."';";
 	} else if ($eredmeny == 2 && $buntetoEredm == 0) {
 		//Nyert a B csapat!
-		$pontszamB = 3;
+		$pontszamB += 3;
 		$sql .= "UPDATE csapatok SET pontszam = ".$pontszamB." WHERE csapat_nev = '".$csapat_b."';";
 	} else if ($eredmeny == 0) {
 		//döntetlen

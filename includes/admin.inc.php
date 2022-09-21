@@ -110,11 +110,6 @@
                     $buntetoEredm = 0;
                 }
 
-                if(!emptyInputMeccsek($csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny)) {
-                    header("location: ../admin.php?error=emptyinputmeccsek");
-                    exit();
-                }
-
                 meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm);
 
                 pontozas($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny, $buntetoEredm);
