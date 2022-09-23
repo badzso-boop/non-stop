@@ -1,5 +1,20 @@
 # Non-Stop foci weboldal
 
+## Adatbázis
+- az sql - adatbázis mappában található a __non-stop.sql__ fájl az adatbázis exportát változata
+- az __includes/dbh.inc.php__ fájlban az adatbázis felhasználóját át kell írni.
+
+## Oldal kezelése
+- __localhost__ felületen elérik az oldal tanulói változatát, vagy ha friss adatokat szeretnének a __https://foci.ipariszakkozep.hu/__ oldalon is elérik élő adatokkal.
+- a __localhost/admin.php__ oldal elérésével az admin felülethez férnek hozzá.
+- Belépési adatok: felhasználónév: admin, jelszó: admin
+- Az admin felületen minden gomb és funkció működik
+
+## Oldal bővítése
+- A csoportok rögzítése, nem statikus felvitele
+- Gombnyomásra döntő és továbbjutás számítás
+- Mobil barát felhasználói felület
+
 ## Terv
 - Csapatok felvitele csapattagokkal egyutt
 - Meccsek felvitele csapatokkal es idoponttal, majd eredmeny megadasa vagy kiesett

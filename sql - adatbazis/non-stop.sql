@@ -74,7 +74,7 @@ CREATE TABLE `felhasznalok` (
 --
 
 INSERT INTO `felhasznalok` (`id`, `uname`, `pwd`) VALUES
-(1, 'admin', 'IpariDOK14');
+(1, 'admin', 'admin');
 
 -- --------------------------------------------------------
 
