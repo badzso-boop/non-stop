@@ -36,11 +36,22 @@
     - csapat_b_gol (input)
     - idopont (valami time)
     - eredmeny (input) [0 -> döntetlen; 1 -> a; 2 -> b]
-5. Döntő számoló
+5. Pontozás
     - minden csapatnak kiszámolja a pontokat
     - dontobe jutott csapatok kilistazasa
     - Vegigmegy a csapatokon es mellette az osszes meccsen es ahol az a csapat nyert felirja hogy +3 a dontetlennel meg +1 es mindketto csapatnak megadja a golok szerint a pontot
     - Ha a csapat nyer, akkor kap 3 pontot, ha döntetlen, akkor mindkét csapat 1-1 pontot, ha veszít, akkor nem kap pontot?
+6. Foldal es admin oldal felhasznalo baratta tetele
+    - ne mindent egybe jelenitsen meg, hanem menukre ossza szet
+    - tablazatok hanyagolasa helyette reszponziv dizanj keszitese
+7. Továbbjutás kiszámolása + javítások
+    - csoportok táblázattal az adatbázis kibővítése
+    - amikor csapatot töltünk fel egy csoporthoz hozzá kell rendelni
+    - csoportok létrehozása
+    - csoportokon belül sorrendbe állítás pontszám szerint
+    - admin eldönti adott csoportból hányan jutnak tovább
+    - továbbjutott csapatok automatikus egybe sorsolasa
+    - az egybesorsolt csapatoknak az admin hozzarendel idot
 
 
 ## ADATBÁZIS TERV
@@ -63,12 +74,30 @@ CREATE TABLE felhasznalok (
 - csapat_nev                  || CHAR(255)
 - csapat_tagok (nev-osztaly;) || VARCHAR(512)
 - csapat_pontszam             || INT(15)
+- csoport                     || VARCHAR(512)
 
 CREATE TABLE csapatok (
     id INT(255) NOT NULL UNIQUE AUTO_INCREMENT,
     csapat_nev CHAR(255),
     csapat_tagok VARCHAR(512),
-    pontszam INT(15)
+    pontszam INT(15),
+    csoport VARCHAR(512)
+);
+
+---
+
+### Csoportok
+
+- id 
+- csoport nev
+- csoport evfolyam
+- csoport_tagok
+
+CREATE TABLE csapatok (
+    id INT(255) NOT NULL UNIQUE AUTO_INCREMENT,
+    csoport_nev CHAR(255),
+    csoport_evfolyam VARCHAR(512),
+    csoport_tagok VARCHAR(512)
 );
 
 ---
