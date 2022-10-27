@@ -1,3 +1,7 @@
+#kep {
+    border-radius: 15px;
+}
+
 .fooldal {
     display: none;
 }
@@ -38,4 +42,8 @@
     text-align: center;
     margin-bottom: 5rem;
     font-size: 20px;
+}
+
+.latszik {
+    display: none !important;
 }

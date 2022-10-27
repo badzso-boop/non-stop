@@ -41,18 +41,22 @@
     - dontobe jutott csapatok kilistazasa
     - Vegigmegy a csapatokon es mellette az osszes meccsen es ahol az a csapat nyert felirja hogy +3 a dontetlennel meg +1 es mindketto csapatnak megadja a golok szerint a pontot
     - Ha a csapat nyer, akkor kap 3 pontot, ha döntetlen, akkor mindkét csapat 1-1 pontot, ha veszít, akkor nem kap pontot?
+
 6. Foldal es admin oldal felhasznalo baratta tetele
     - ne mindent egybe jelenitsen meg, hanem menukre ossza szet
-    - tablazatok hanyagolasa helyette reszponziv dizanj keszitese
+    - tablazatok hanyagolasa helyette reszponziv dizanj keszitese (card)
 7. Továbbjutás kiszámolása + javítások
-    - csoportok táblázattal az adatbázis kibővítése
-    - amikor csapatot töltünk fel egy csoporthoz hozzá kell rendelni
-    - csoportok létrehozása
-    - csoportokon belül sorrendbe állítás pontszám szerint
+    - csoportok táblázattal az adatbázis kibővítése -> pipa
+    - csoportok létrehozása -> pipa
+    - csoportokon belül sorrendbe állítás pontszám szerint 
     - admin eldönti adott csoportból hányan jutnak tovább
     - továbbjutott csapatok automatikus egybe sorsolasa
-    - az egybesorsolt csapatoknak az admin hozzarendel idot
+    - az egybesorsolt csapatoknak az admin hozzarendel
 
+---
+
+5. Admin felület torlesnel/szerkesztesnel -> bootstrap modal
+6. Tovabbjutas kiszamitasa
 
 ## ADATBÁZIS TERV
 

@@ -65,6 +65,7 @@
                 csapatSzerkesztese($conn, $id, $csapatNev, $csapatTagok, $pontszam);
             }
 
+            //Csapat torlese
             if(isset($_POST["submitCsTorles"])) {
                 $id = $_POST["id"];
 
@@ -104,13 +105,18 @@
                 $eredmeny = $_POST['eredmeny'];
                 $bunteto = $_POST['bunteto'];
 
+                $bunteto_a_gol = $_POST["csapat_a_bunteto"];
+                $bunteto_b_gol = $_POST["csapat_b_bunteto"];
+
+
+
                 if ($bunteto == true) {
                     $buntetoEredm = 1;
                 } else {
                     $buntetoEredm = 0;
                 }
 
-                meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm);
+                meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm, $bunteto_a_gol, $bunteto_b_gol);
 
                 pontozas($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny, $buntetoEredm);
 
@@ -132,7 +138,7 @@
                 meccsTorlese($conn, $id);
             }
 
-            //Meccs Sszerkesztése
+            //Meccs Szerkesztése
             if (isset($_POST["SubmitMeccsSzerk"])) {
                 $id = $_POST['id'];
                 $csapat_a = $_POST['csapat_a'];
@@ -150,6 +156,34 @@
 
                 MeccsSzerkesztese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol,$datum, $idopont, $eredmeny);
             }
+
+            //Csoport feltöltése
+            if (isset($_POST["submitCsoport"])) {
+                $csapatok = [];
+                $csoport_nev = $_POST["csoport_nev"];
+                $csapatok_str = "";
+
+                foreach ($_POST["csapatnev"] as $key => $checked) {
+                    array_push($csapatok, $_POST["csapatnev"][$key]);
+                }
+
+                for ($i=0; $i < count($csapatok)-1; $i++) { 
+                    $csapatok_str .= $csapatok[$i].';';
+                }
+
+                $csapatok_str .= $csapatok[count($csapatok)-1];
+
+                csoportFeltoltese($conn, $csoport_nev, $csapatok_str);
+            }
+
+            //csoport törlése
+            if (isset($_POST["csoportTorles"])) {
+                $id = $_POST["id"];
+
+                csoportTorlese($conn, $id);
+            }
+
+            
         } else {
             header("location: ../index.php?error=notadmin");
         }

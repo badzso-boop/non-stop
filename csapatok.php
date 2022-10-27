@@ -16,44 +16,75 @@
 <body>
     <?php include_once 'parts/fejlec.php'; ?>
 
-    <h1 class="text-center m-5">Csapatok</h1>
+    <h1 class="text-center m-5">Csoportok</h1>
 
     <div class="container-sm">
         <div class="row">
             <div class="col-sm">
-                <table class = "table table-hover">
-                    <thead class="thead-light">
-                        <tr class="text-center">
-                            <th>Csapatnév</th>
-                            <th>Csapattagok</th>
-                            <th>Pontszám</th>
-                        </tr>
-                    </thead>
-                    <?php 
-                        require_once 'includes/dbh.inc.php';
-                        require_once 'includes/functions.inc.php';
+                <?php 
+                    require_once 'includes/dbh.inc.php';
+                    require_once 'includes/functions.inc.php';
 
-                        $csapatok = csapatokLekeres($conn);
+                    $csapatok = csapatokLekeres($conn);
+                    $csoportok = csoportokLekerese($conn);
+                    $k = 0;
 
-                        if ($csapatok->num_rows > 0) {
-                            while($seged = $csapatok->fetch_assoc()) {
-                                $tomb = explode(";", $seged["csapat_tagok"]);
-                                $szam = count($tomb) - 1;
-                                
-                                
-                                echo "<tr class='text-center'><td>".$seged["csapat_nev"]."</td>";
-                                echo "<td><ul style='list-style: none;'>";
-                                for ($i=0; $i < $szam; $i++) { 
-                                    echo "<li>".$tomb[$i]."</li>";
-                                }
-                                echo "</ul></td>";
-                                echo "<td>".$seged["pontszam"]."</td></tr>";
-                            }
-                        } else {
-                            echo "Nincsenek fent csapatok :(";
+                    if ($csoportok->num_rows > 0) {
+                        while($seged = $csoportok->fetch_assoc()) {
+                            $tomb = explode(";", $seged["csapatok"]);
+                            $szam = count($tomb);
+
+                            echo '
+                                <div class="card m-4 d-inline-block" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">'.$seged["csoport_nev"].'</h5>
+                                        <div class="card-text">
+                                            <ul>';
+                                            for ($i=0; $i < $szam; $i++) { 
+                                                echo "<li>".$tomb[$i]."</li>";
+                                            }
+                                            echo '</ul>
+                                        </div>
+                                    </div>
+                                </div>';
                         }
-                    ?>
-                </table>
+                    }
+                    else {
+                        echo 'Nincsenek csoportok';
+                    }
+
+                    echo '<hr style="width: 75%;">
+                    <h1 class="text-center m-5">Csapatok</h1>';
+
+                    if ($csapatok->num_rows > 0) {
+                        while($seged = $csapatok->fetch_assoc()) {
+                            $tomb = explode(";", $seged["csapat_tagok"]);
+                            $szam = count($tomb) - 1;
+                
+                            echo '
+                            <div class="card d-inline-block m-4" style="width: 18rem;">
+                                <img src="img/sample-sm.jpg" class="card-img-top" alt="...">
+                                <div class="card-body">
+                                    <h5 class="card-title">'.$seged["csapat_nev"].'</h5>
+                                    <div class="card-text">
+                                        <p>Pontszám: '.$seged["pontszam"].'</p>
+                                        <p>Csapattagok: </p>
+                                        <ul>';
+                                        for ($i=0; $i < $szam; $i++) { 
+                                            echo "<li>".$tomb[$i]."</li>";
+                                        }
+                                        echo '</ul>
+                                    </div>
+                                    <a href="#" class="btn btn-primary" onclick="kedveles('.$k.')">Kedvelés küldése</a>
+                                    <p>Kedvelések: <span id="kedveles'.$k.'">0</span></p>
+                                </div>
+                            </div>';
+                            $k++;
+                        }
+                    } else {
+                        echo "Nincsenek fent csapatok :(";
+                    }
+                ?>
             </div>
         </div>
     </div>

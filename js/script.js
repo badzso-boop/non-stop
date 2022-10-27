@@ -62,6 +62,8 @@ function inputok() {
 function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
     //console.log("ID: " + id + ", Csapatnev: " + csapat_nev + ", Csapat tagok: " + csapat_tagok + ", POntszám: " + pontszam);
 
+    document.getElementById("lista").classList.toggle('latszik');
+
     var form = document.getElementById("csapatSzerkForm");
     var inputId = document.createElement("input");
     var inputCsNev = document.createElement("input");
@@ -142,6 +144,8 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
     form.appendChild(buttonBack);
 
     document.getElementById("buttonBack").addEventListener("click", async function() {
+        document.getElementById("lista").classList.toggle('latszik');
+
         let form = document.getElementById("csapatSzerkForm");
         while (form.firstChild) {
             form.removeChild(form.firstChild);
@@ -150,6 +154,8 @@ function csapatokSzerkesztesJS(id, csapat_nev, csapat_tagok, pontszam) {
 }
 
 function csapatokTorleseJS(id, csapat_nev) {
+    document.getElementById("lista").classList.toggle('latszik');
+
     var form = document.getElementById("csapatSzerkForm");
     var inputId = document.createElement("input");
     var inputCsNev = document.createElement("p");
@@ -186,6 +192,8 @@ function csapatokTorleseJS(id, csapat_nev) {
     form.appendChild(buttonBack);
 
     document.getElementById("buttonBack").addEventListener("click", async function() {
+        document.getElementById("lista").classList.toggle('latszik');
+
         let form = document.getElementById("csapatSzerkForm");
         while (form.firstChild) {
             form.removeChild(form.firstChild);
@@ -194,14 +202,37 @@ function csapatokTorleseJS(id, csapat_nev) {
 }
 
 function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny, bunteto) {
+    document.getElementById("eredmenyCard").classList.toggle('latszik');
+    document.getElementById("mlista").classList.toggle('latszik');
+
     var form = document.getElementById("meccsEredmForm");
+
+    var labelid = document.createElement("label");
     var inputId = document.createElement("input");
+
+    var labelcsapatA = document.createElement("label");
     var inputCsapatA = document.createElement("input");
+
+    var labelcsapatAGOl = document.createElement("label");
     var inputCsapatAGol = document.createElement("input");
+
+    var labelcsapatB = document.createElement("label");
     var inputCsapatB = document.createElement("input");
+
+    var labelcsapatBGOL = document.createElement("label");
     var inputCsapatBGol = document.createElement("input");
+
+    var labeldatum = document.createElement("label");
     var inputDatum = document.createElement("input");
+
+    var labelidopont = document.createElement("label");
     var inputIdopont = document.createElement("input");
+
+    var labelcsapatABunteto = document.createElement("label");
+    var inputCsapatAGolBunteto = document.createElement("input");
+
+    var labelcsapatBBunteto = document.createElement("label");
+    var inputCsapatBGolBunteto = document.createElement("input");
 
     var inputBuntetoLabel = document.createElement("label");
     var inputBunteto = document.createElement("select");
@@ -212,12 +243,18 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     var csapatLista = ["Döntetlen", csapat_a, csapat_b];
     var inputEredm = document.createElement("select");
 
+    var labelNyertes = document.createElement("label");
+
     inputId.type = "number";
     inputId.name = "id";
     inputId.id = "id";
     inputId.value = id;
     inputId.readOnly = true;
     inputId.classList.add('m-2');
+    inputId.classList.add('d-block');
+
+    labelid.innerHTML = "Id";
+    labelid.classList.add('m-2');
 
     inputCsapatA.type = "text";
     inputCsapatA.name = "csapat_a";
@@ -225,12 +262,20 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     inputCsapatA.value = csapat_a;
     inputCsapatA.readOnly = true;
     inputCsapatA.classList.add('m-2');
+    inputCsapatA.classList.add('d-block');
+
+    labelcsapatA.innerHTML = "Csapat A:";
+    labelcsapatA.classList.add('m-2');
 
     inputCsapatAGol.type = "number";
     inputCsapatAGol.name = "csapat_a_gol";
     inputCsapatAGol.id = "csapat_a_gol";
     inputCsapatAGol.value = csapat_a_gol;
     inputCsapatAGol.classList.add('m-2');
+    inputCsapatAGol.classList.add('d-block');
+
+    labelcsapatAGOl.innerHTML = "Csapat A Golok:";
+    labelcsapatAGOl.classList.add('m-2');
 
     inputCsapatB.type = "text";
     inputCsapatB.name = "csapat_b";
@@ -238,12 +283,20 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     inputCsapatB.value = csapat_b;
     inputCsapatB.readOnly = true;
     inputCsapatB.classList.add('m-2');
+    inputCsapatB.classList.add('d-block');
+
+    labelcsapatB.innerHTML = "Csapat B:";
+    labelcsapatB.classList.add('m-2');
 
     inputCsapatBGol.type = "number";
     inputCsapatBGol.name = "csapat_b_gol";
     inputCsapatBGol.id = "csapat_b_gol";
     inputCsapatBGol.value = csapat_b_gol;
     inputCsapatBGol.classList.add('m-2');
+    inputCsapatBGol.classList.add('d-block');
+
+    labelcsapatBGOL.innerHTML = "Csapat B golok:";
+    labelcsapatBGOL.classList.add('m-2');
 
     inputIdopont.type = "time";
     inputIdopont.name = "idopont";
@@ -251,6 +304,10 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     inputIdopont.value = idopont;
     inputIdopont.readOnly = true;
     inputIdopont.classList.add('m-2');
+    inputIdopont.classList.add('d-block');
+
+    labelidopont.innerHTML = "Óra:";
+    labelidopont.classList.add('m-2');
 
     inputDatum.type = "date";
     inputDatum.name = "datum";
@@ -258,17 +315,28 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     inputDatum.value = datum;
     inputDatum.readOnly = true;
     inputDatum.classList.add('m-2');
+    inputDatum.classList.add('d-block');
+
+    labeldatum.innerHTML = "Dátum:";
+    labeldatum.classList.add('m-2');
+
+    labelNyertes.innerHTML = "Nyertes:";
+    labelNyertes.classList.add('m-2');
+    labelNyertes.classList.add('d-block');
 
     inputEredm.name = "eredmeny";
     inputEredm.id = "inputEredm";
     inputEredm.classList.add('m-2');
+    inputEredm.classList.add('d-block');
 
     inputBuntetoLabel.name = "bunteto";
     inputBuntetoLabel.innerText = "Büntetővel nyert?";
+    inputBuntetoLabel.classList.add('m-2')
 
     inputBunteto.name = "bunteto";
     inputBunteto.id = "inputBunteto";
     inputBunteto.classList.add('m-2');
+    inputBunteto.classList.add('d-block');
 
     buttonSubmit.type = "submit";
     buttonSubmit.name = "submitMeccsEredm";
@@ -286,13 +354,47 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
     buttonBack.classList.add('btn-secondary');
     buttonBack.classList.add('m-2');
 
+    labelcsapatABunteto.innerHTML = "Csapat A büntető:";
+    labelcsapatABunteto.classList.add('m-2');
+
+    inputCsapatAGolBunteto.type = "number";
+    inputCsapatAGolBunteto.name = "csapat_a_bunteto";
+    inputCsapatAGolBunteto.id = "csapat_a_gol_bunteto";
+    inputCsapatAGolBunteto.placeholder = csapat_a + " büntetői"
+    inputCsapatAGolBunteto.classList.add('m-2');
+    inputCsapatAGolBunteto.classList.add('d-block');
+
+    labelcsapatBBunteto.innerHTML = "Csapat B büntető:"
+
+    inputCsapatBGolBunteto.type = "number";
+    inputCsapatBGolBunteto.name = "csapat_b_bunteto";
+    inputCsapatBGolBunteto.id = "csapat_b_gol_bunteto";
+    inputCsapatBGolBunteto.placeholder = csapat_b + " büntetői";
+    inputCsapatBGolBunteto.classList.add('m-2');
+    inputCsapatBGolBunteto.classList.add('d-block');
+
+    form.appendChild(labelid);
     form.appendChild(inputId);
+
+    form.appendChild(labelcsapatA);
     form.appendChild(inputCsapatA);
+
+    form.appendChild(labelcsapatAGOl);
     form.appendChild(inputCsapatAGol);
+
+    form.appendChild(labelcsapatB);
     form.appendChild(inputCsapatB);
+
+    form.appendChild(labelcsapatBGOL);
     form.appendChild(inputCsapatBGol);
+
+    form.appendChild(labeldatum);
     form.appendChild(inputDatum);
+
+    form.appendChild(labelidopont);
     form.appendChild(inputIdopont);
+
+    form.appendChild(labelNyertes);
     form.appendChild(inputEredm);
     for (let i = 0; i < csapatLista.length; i++) {
         var option = document.createElement("option");
@@ -310,10 +412,19 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
         document.getElementById("inputBunteto").appendChild(option);
     }
 
+    form.appendChild(labelcsapatABunteto);
+    form.appendChild(inputCsapatAGolBunteto);
+
+    form.appendChild(labelcsapatBBunteto);
+    form.appendChild(inputCsapatBGolBunteto);
+
     form.appendChild(buttonSubmit);
     form.appendChild(buttonBack);
 
     document.getElementById("buttonBack").addEventListener("click", async function() {
+        document.getElementById("eredmenyCard").classList.toggle('latszik');
+        document.getElementById("mlista").classList.toggle('latszik');
+
         let form = document.getElementById("meccsEredmForm");
         while (form.firstChild) {
             form.removeChild(form.firstChild);
@@ -322,7 +433,10 @@ function meccsEredmenyRogzitese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_g
 }
 
 function meccsSzerkesztese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny) {
-    var table = document.getElementById("csapatokTable").getElementsByClassName("csapat_nev");
+    document.getElementById("eredmenyCard").classList.toggle('latszik');
+    document.getElementById("mlista").classList.toggle('latszik');
+
+    var table = document.getElementById("csapatok").getElementsByClassName("csapat_nev");
 
     var form = document.getElementById("meccsEredmForm");
     var inputId = document.createElement("input");
@@ -418,6 +532,9 @@ function meccsSzerkesztese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, d
     form.appendChild(buttonBack);
 
     document.getElementById("buttonBack").addEventListener("click", async function() {
+        document.getElementById("eredmenyCard").classList.toggle('latszik');
+        document.getElementById("mlista").classList.toggle('latszik');
+
         let form = document.getElementById("meccsEredmForm");
         while (form.firstChild) {
             form.removeChild(form.firstChild);
@@ -426,6 +543,8 @@ function meccsSzerkesztese(id, csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, d
 }
 
 function adottMeccsTorlese(id, csapat_a, csapat_b) {
+    document.getElementById("torlesCard").classList.toggle('latszik');
+
     let form = document.getElementById("meccsTorles");
 
     let input = document.createElement("input");
@@ -461,9 +580,64 @@ function adottMeccsTorlese(id, csapat_a, csapat_b) {
     form.appendChild(buttonBack);
 
     document.getElementById("buttonBack").addEventListener("click", async function() {
+        document.getElementById("torlesCard").classList.toggle('latszik');
+        document.getElementById("mlista").classList.toggle('latszik');
+        
         let form = document.getElementById("meccsTorles");
         while (form.firstChild) {
             form.removeChild(form.firstChild);
         }
       });
+}
+
+function adottCsoportTorlese(id, csoport_nev) {
+    document.getElementById("csTorlesCard").classList.toggle('latszik');
+
+    let form = document.getElementById("csoportTorlese");
+
+    let h5 = document.getElementById("csth5");
+    let input = document.createElement("input");
+    let button = document.createElement("button");
+    let buttonBack = document.createElement("button");
+
+    h5.innerHTML = "Biztos törölni szeretné a(z) <b>" + csoport_nev + "</b> nevezetű csoportot?";
+
+    input.type = "number";
+    input.name = "id";
+    input.value = id;
+    input.style.display = "none";
+
+    button.type = "submit";
+    button.name = "csoportTorles";
+    button.innerHTML = "Törlés";
+    button.classList.add('btn');
+    button.classList.add('btn-secondary');
+    button.classList.add('m-2');
+
+    buttonBack.type = "button";
+    buttonBack.name = "buttonBack";
+    buttonBack.id = "buttonBack";
+    buttonBack.innerHTML = "Nem";
+    buttonBack.classList.add('btn');
+    buttonBack.classList.add('btn-secondary');
+    buttonBack.classList.add('m-2');
+
+    form.appendChild(input);
+    form.appendChild(button);
+    form.appendChild(buttonBack);
+
+    document.getElementById("buttonBack").addEventListener("click", async function() {
+        document.getElementById("csTorlesCard").classList.toggle('latszik');
+        
+        let form = document.getElementById("csoportTorlese");
+        while (form.firstChild) {
+            form.removeChild(form.firstChild);
+        }
+      });
+}
+
+function kedveles(id) {
+    let kedveles = document.getElementById('kedveles'+id).innerHTML;
+
+    document.getElementById('kedveles'+id).innerHTML = parseInt(kedveles) + 1;
 }
