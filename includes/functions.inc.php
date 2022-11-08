@@ -452,17 +452,33 @@ function csoportElsok($conn) {
 
 	if ($csoportok->num_rows > 0) {
 		while($seged = $csoportok->fetch_assoc()) {
-			//echo $seged["csoport_nev"]. " -> " .$seged["csapatok"];
-			//echo '<br>';
-
 			$tomb = explode(";", $seged["csapatok"]);
 
+			// <div class="card" style="width: 18rem;">
+			//   <div class="card-body">
+			//     <h5 class="card-title">Card title</h5>
+			//     <ul>
+			// 		</ul>
+			//   </div>
+			// </div>
+			
 			$max = $tomb[0];
-			for ($i=1; $i < count($tomb); $i++) {
+			echo '<div class="container-sm"><div class="card d-inline-block m-4" style="width: 18rem;"> <div class="card-body">'; 
+
+			echo '<h5 class="card-title">'. $seged["csoport_nev"]. '</h5>';
+			for ($i=0; $i < count($tomb); $i++) {
 				if ($csapatokTomb[$tomb[$i]] > $csapatokTomb[$max]) {
 					$max = $tomb[$i];
 				}
+				$elsok[$seged["csoport_nev"]] = $csapatokTomb[$tomb[$i]];
+				echo '<ul>';
+				echo '<li>' . $tomb[$i] . ' = pontszám: ' . $csapatokTomb[$tomb[$i]] . '</li>';
+				echo '</ul>';
 			}
+
+
+			echo '</div></div>';
+			echo '</div>';
 
 			$elsok[$seged["csoport_nev"]] = $max . ";" . $csapatokTomb[$max];
 		}
@@ -473,37 +489,55 @@ function csoportElsok($conn) {
 
 
 //
-function mentes($conn) {
-	$csoportok = csoportokLekerese($conn);
-	$textCsoportok = "";
-	if ($csoportok->num_rows > 0) {
-		while($seged = $csoportok->fetch_assoc()) {
-			$textCsoportok .= $seged["csoport_nev"] . "=" . $seged["csapatok"] . ",";
+function mentes($conn, $mysqli) {
+		$csoportok = csoportokLekerese($conn);
+		$textCsoportok = "";
+		if ($csoportok->num_rows > 0) {
+			while($seged = $csoportok->fetch_assoc()) {
+				$textCsoportok .= $seged["csoport_nev"] . ";" . $seged["csapatok"] . "\n";
+			}
 		}
-	}
+	
+		$csapatok = csapatokLekeres($conn);
+		$textCsapatok = "";
+		if ($csapatok->num_rows > 0) {
+			while($seged = $csapatok->fetch_assoc()) {
+				$textCsapatok .= $seged["csapat_nev"] . ";" . $seged["csapat_tagok"] . ";" . $seged["pontszam"] . ";" . $seged["csoport"] . "\n";
+			}
+		}
+	
+		$meccsek = meccsekLekerese($conn);
+		$textMeccsek = "";
+		if ($meccsek->num_rows > 0) {
+			while($seged = $meccsek->fetch_assoc()) {
+				$textMeccsek .= $seged["csapat_a"] . ";" . $seged["csapat_a_gol"]. ";" . $seged["csapat_b"] . ";" . $seged["csapat_b_gol"] . ";" . $seged["datum"] . ";" . $seged["idopont"] . ";" . $seged["eredmeny"] . ";" . $seged["bunteto"] . ";" . $seged["bunteto_a_gol"] . ";" . $seged["bunteto_b_gol"] . "\n";
+			}
+		}
+	
+		$textCsoportok .= "\n";
+		$textCsapatok .= "\n";
+		$textMeccsek .= "\n";
+	
+		header('Content-Type: application/csv');
+		header('Content-Disposition: attachement; filename="downloaded_file.csv"');
+		echo $textCsoportok . $textCsapatok . $textMeccsek;
 
-	$csapatok = csapatokLekeres($conn);
-	$textCsapatok = "";
-	if ($csapatok->num_rows > 0) {
-		while($seged = $csapatok->fetch_assoc()) {
-			$textCsapatok .= $seged["csapat_nev"] . "=" . $seged["csapat_tagok"] . "=" . $seged["pontszam"] . "=" . $seged["csoport"] . ",";
-		}
-	}
+		$sql = "TRUNCATE table csoportok; TRUNCATE table meccsek;";
+		$mysqli->multi_query($sql);
 
-	$meccsek = meccsekLekerese($conn);
-	$textMeccsek = "";
-	if ($meccsek->num_rows > 0) {
-		while($seged = $meccsek->fetch_assoc()) {
-			$textMeccsek .= $seged["csapat_a"] . "=" . $seged["csapat_a_gol"]. "=" . $seged["csapat_b"] . "=" . $seged["csapat_b_gol"] . "=" . $seged["datum"] . "=" . $seged["idopont"] . "=" . $seged["eredmeny"] . "=" . $seged["bunteto"] . "=" . $seged["bunteto_a_gol"] . "=" . $seged["bunteto_b_gol"] . ",";
-		}
-	}
+		do {
+			if ($result = $mysqli->store_result()) {
+				var_dump($result->fetch_all());
+				$result->free();
+			}
+		} while ($mysqli->next_result());
 }
 
 function tovabbJutott($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $csoport_nev, $csoport_tagok, $datum, $idopont, $eredmeny) {
 	// meccs beillesztese a meccsekbe
 	// csapat csoportjanak frissitese
 	// csoport letrehozasa
-	mentes($conn);
+	//mentes($conn);
 
 
 	/*

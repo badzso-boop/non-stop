@@ -415,6 +415,9 @@
                 }
             ?>
 
+            <form action="includes/admin.inc.php" method="post">
+                <button class="btn btn-secondary" type="submit" name="submitBiztonsagi">Mentés</button>
+            </form>
 
             <br>
             
@@ -422,17 +425,16 @@
             <form action="includes/admin.inc.php" method="post">
                 <label for="csapat_a">Csapat A</label>
                 <select name="csapat_a">
-                    <?php 
+                    <?php
                         require_once 'includes/dbh.inc.php';
                         require_once 'includes/functions.inc.php';
 
-                        $elsok = csoportElsok($conn);
+                        $csapatok = csapatokLekeres($conn);
 
-                        foreach ($elsok as $key => $item) {
-                            $tomb = explode(";", $item);
-                            echo '<option value="'.$tomb[0].'">'.$tomb[0].'</option>';
-                            //echo $key . " -> " . $tomb[0] . ", " . $tomb[1] . " pont";
-                            //echo '<br>';
+                        if ($csapatok->num_rows > 0) {
+                            while($seged = $csapatok->fetch_assoc()) {
+                                echo '<option value="'.$seged["csapat_nev"].'">'.$seged["csapat_nev"].'</option>';
+                            }
                         }
                     ?>
                 </select>
@@ -442,17 +444,16 @@
 
                 <label for="csapat_b">Csapat B</label>
                 <select name="csapat_b">
-                    <?php 
+                    <?php
                         require_once 'includes/dbh.inc.php';
                         require_once 'includes/functions.inc.php';
 
-                        $elsok = csoportElsok($conn);
+                        $csapatok = csapatokLekeres($conn);
 
-                        foreach ($elsok as $key => $item) {
-                            $tomb = explode(";", $item);
-                            echo '<option value="'.$tomb[0].'">'.$tomb[0].'</option>';
-                            //echo $key . " -> " . $tomb[0] . ", " . $tomb[1] . " pont";
-                            //echo '<br>';
+                        if ($csapatok->num_rows > 0) {
+                            while($seged = $csapatok->fetch_assoc()) {
+                                echo '<option value="'.$seged["csapat_nev"].'">'.$seged["csapat_nev"].'</option>';
+                            }
                         }
                     ?>
                 </select>

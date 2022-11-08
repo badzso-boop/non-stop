@@ -202,6 +202,11 @@
 
                 tovabbJutott($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $csoport_nev, $csoport_tagok, $datum, $idopont, $eredmeny);
             }
+
+            //elozo adatok elmentese
+            if (isset($_POST["submitBiztonsagi"])) {
+                mentes($conn, $mysqli);
+            }
             
         } else {
             header("location: ../index.php?error=notadmin");

@@ -134,7 +134,7 @@
                             $k++;
                         }
                     } else {
-                        echo "Nincsenek fent csapatok :(";
+                        echo "Nincsenek fent csapatok";
                     }
                 ?>
             </div>

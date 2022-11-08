@@ -135,11 +135,13 @@
                                         $k++;
                                     }
                                 }  else {
-                                    echo "Nincsenek fent csapatok :(";
+                                    echo "Nincsenek fent csapatok";
                                 }
 
                                 echo '</div>';
                             }
+                        } else {
+                            echo 'Nincsenek fent meccsek!';
                         }
 
 

@@ -12,7 +12,7 @@ INSERT INTO `csapatok` (`id`, `csapat_nev`, `csapat_tagok`, `pontszam`) VALUES
 (4, '9/D', 'tanulo1 - 9/D;', 0),
 (5, '10/A', 'tanulo1 - 10/A;', 0),
 (6, '10/E', 'tanulo1 - 10/E;', 0),
-(7, '10/C', 'tanulo1 - 10/C;', 3),
+(7, '10/C', 'tanulo1 - 10/C;', 0),
 (8, '9/E', 'tanulo1 - 9/E;', 0),
 (9, '10/B', 'tanulo1 - 10/B;', 0),
 (10, '11/B', 'tanulo1 - 11/B;', 0),
