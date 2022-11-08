@@ -16,7 +16,10 @@
 <body>
     <?php include_once 'parts/fejlec.php'; ?>
 
-    <h1 class="text-center m-5">Csoportok</h1>
+    <div class="container">
+        <h1 class="text-center m-5">Csoportok</h1>
+        <h1 class="text-center"><button class="btn btn-success btn-lg text-center m-auto" onclick="window.location.reload()">Frissítés</button></h1>
+    </div>
 
     <div class="container-sm">
         <div class="row">
@@ -55,6 +58,7 @@
 
                     echo '<hr style="width: 75%;">
                     <h1 class="text-center m-5">Csapatok</h1>';
+                    echo '<h1 class="text-center"><button class="btn btn-success btn-lg text-center m-auto" onclick="window.location.reload()">Frissítés</button></h1>';
 
                     if ($csapatok->num_rows > 0) {
                         while($seged = $csapatok->fetch_assoc()) {
@@ -62,8 +66,7 @@
                             $szam = count($tomb) - 1;
                 
                             echo '
-                            <div class="card d-inline-block m-4" style="width: 18rem;">
-                                <img src="img/sample-sm.jpg" class="card-img-top" alt="...">
+                            <div class="card d-inline-block m-4" style="width: 18rem; background-color: rgba(12, 232, 217, 0.5)">
                                 <div class="card-body">
                                     <h5 class="card-title">'.$seged["csapat_nev"].'</h5>
                                     <div class="card-text">
@@ -75,8 +78,6 @@
                                         }
                                         echo '</ul>
                                     </div>
-                                    <a href="#" class="btn btn-primary" onclick="kedveles('.$k.')">Kedvelés küldése</a>
-                                    <p>Kedvelések: <span id="kedveles'.$k.'">0</span></p>
                                 </div>
                             </div>';
                             $k++;

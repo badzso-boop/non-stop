@@ -116,7 +116,7 @@
                     $buntetoEredm = 0;
                 }
 
-                meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm, $bunteto_a_gol, $bunteto_b_gol);
+                meccsEredmenyRogzitese($mysqli, $conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm, $bunteto_a_gol, $bunteto_b_gol);
 
                 pontozas($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny, $buntetoEredm);
 
@@ -173,16 +173,35 @@
 
                 $csapatok_str .= $csapatok[count($csapatok)-1];
 
-                csoportFeltoltese($conn, $csoport_nev, $csapatok_str);
+                csoportFeltoltese($conn, $mysqli, $csoport_nev, $csapatok_str);
             }
 
             //csoport törlése
             if (isset($_POST["csoportTorles"])) {
                 $id = $_POST["id"];
+                $csoport_nev = $_POST["csoport_nev"];
 
-                csoportTorlese($conn, $id);
+                csoportTorlese($mysqli, $conn, $id, $csoport_nev);
             }
 
+            // tovabbjutas kiszamitasa
+            if (isset($_POST["submitMeccsTovabbjutas"])) {
+                $csapat_a = $_POST["csapat_a"];
+                $csapat_a_gol = $_POST["csapat_a_gol"];
+
+                $csapat_b = $_POST["csapat_b"];
+                $csapat_b_gol = $_POST["csapat_b_gol"];
+
+                $csoport_nev = $_POST["csoport"];
+                $csoport_tagok = $csapat_a . ";" . $csapat_b;
+
+                $datum = $_POST["datum"];
+                $idopont = $_POST["idopont"];
+
+                $eredmeny = $_POST["eredmeny"];
+
+                tovabbJutott($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $csoport_nev, $csoport_tagok, $datum, $idopont, $eredmeny);
+            }
             
         } else {
             header("location: ../index.php?error=notadmin");

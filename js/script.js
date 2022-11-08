@@ -597,6 +597,7 @@ function adottCsoportTorlese(id, csoport_nev) {
 
     let h5 = document.getElementById("csth5");
     let input = document.createElement("input");
+    let inputNev = document.createElement("input");
     let button = document.createElement("button");
     let buttonBack = document.createElement("button");
 
@@ -606,6 +607,11 @@ function adottCsoportTorlese(id, csoport_nev) {
     input.name = "id";
     input.value = id;
     input.style.display = "none";
+
+    inputNev.type = "text";
+    inputNev.name = "csoport_nev";
+    inputNev.value = csoport_nev;
+    inputNev.style.display = "none";
 
     button.type = "submit";
     button.name = "csoportTorles";
@@ -623,6 +629,7 @@ function adottCsoportTorlese(id, csoport_nev) {
     buttonBack.classList.add('m-2');
 
     form.appendChild(input);
+    form.appendChild(inputNev);
     form.appendChild(button);
     form.appendChild(buttonBack);
 
@@ -640,4 +647,8 @@ function kedveles(id) {
     let kedveles = document.getElementById('kedveles'+id).innerHTML;
 
     document.getElementById('kedveles'+id).innerHTML = parseInt(kedveles) + 1;
+}
+
+function frissites() {
+    window.location.reload();
 }

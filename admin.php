@@ -143,6 +143,7 @@
                                         <input type="text" name="csoport_nev">
 
                                         <br>
+                                        <br>
 
                                         <label for="csapat_a">Csapatok</label>
                                         <div id="csapatnevek">
@@ -155,9 +156,10 @@
 
                                                 if ($csapatok->num_rows > 0) {
                                                     while($seged = $csapatok->fetch_assoc()) {
-                                                        echo '<div class="d-inline-block m-2"><label for="csapatnev">'.$seged["csapat_nev"].'</label>
-                                                        <input type="checkbox" name="csapatnev[]" id="'.$seged["csapat_nev"].$k.'" value="'.$seged["csapat_nev"].'"> </div>';
-
+                                                        if ($seged["csoport"] == NULL) {
+                                                            echo '<div class="d-inline-block m-2"><label for="csapatnev">'.$seged["csapat_nev"].'</label>
+                                                            <input type="checkbox" name="csapatnev[]" id="'.$seged["csapat_nev"].'-'.$k.'" value="'.$seged["csapat_nev"].'"> </div>';
+                                                        }
                                                         $k++;
                                                     }
                                                 }
@@ -384,6 +386,96 @@
                     </div>
                 </div>
             </div>
+
+            <hr style="width: 75%;">
+
+            <h1 class="text-center">Továbbjutás kiszámítása</h1>
+
+            <ul>
+                <li>Minden csoportbol a tobb ponttal rendelkezo csapatot osszeszedi egy listaba (CSOPORT A -> 9/C)</li>
+                <li>Csapatok manualis osszeparositasa</li>
+            </ul>
+
+            <br>
+
+            <ul>
+                <li>Gombnyomasra mindent kiexportal, majd a tablakat kitorli es ismet mindent manualisan kell felvinni</li>
+                <li>Nyilvan csak a csoportokat es a meccseket torli ki a csapatok maradnak</li>
+            </ul>
+
+            <h1>Csoport elsők</h1>
+
+            <?php 
+                $elsok = csoportElsok($conn);
+
+                foreach ($elsok as $key => $item) {
+                    $tomb = explode(";", $item);
+                    echo $key . " -> " . $tomb[0] . ", " . $tomb[1] . " pont";
+                    echo '<br>';
+                }
+            ?>
+
+
+            <br>
+            
+            <h3>Új meccs feltöltése</h3>
+            <form action="includes/admin.inc.php" method="post">
+                <label for="csapat_a">Csapat A</label>
+                <select name="csapat_a">
+                    <?php 
+                        require_once 'includes/dbh.inc.php';
+                        require_once 'includes/functions.inc.php';
+
+                        $elsok = csoportElsok($conn);
+
+                        foreach ($elsok as $key => $item) {
+                            $tomb = explode(";", $item);
+                            echo '<option value="'.$tomb[0].'">'.$tomb[0].'</option>';
+                            //echo $key . " -> " . $tomb[0] . ", " . $tomb[1] . " pont";
+                            //echo '<br>';
+                        }
+                    ?>
+                </select>
+                <input type="number" name="csapat_a_gol" value="0" style="display:none;">
+
+                <br>
+
+                <label for="csapat_b">Csapat B</label>
+                <select name="csapat_b">
+                    <?php 
+                        require_once 'includes/dbh.inc.php';
+                        require_once 'includes/functions.inc.php';
+
+                        $elsok = csoportElsok($conn);
+
+                        foreach ($elsok as $key => $item) {
+                            $tomb = explode(";", $item);
+                            echo '<option value="'.$tomb[0].'">'.$tomb[0].'</option>';
+                            //echo $key . " -> " . $tomb[0] . ", " . $tomb[1] . " pont";
+                            //echo '<br>';
+                        }
+                    ?>
+                </select>
+                <input type="number" name="csapat_b_gol" value="0" style="display:none;">
+
+                <br>
+
+                <label for="csoport">Csoport név</label>
+                <input type="text" name="csoport" placeholder="Csoport név">
+
+                <br>
+
+                <label for="datum">Meccs dátuma:</label>
+                <input type="date" name="datum">
+
+                <label for="idopont">Meccs időpontja:</label>
+                <input type="time" name="idopont">
+
+
+                <input type="number" name="eredmeny" value="-1" style="display:none">
+
+                <button type="submit" class="m-auto btn btn-secondary" name="submitMeccsTovabbjutas">Mentés</button>
+            </form>
 
             <br>
             <br>

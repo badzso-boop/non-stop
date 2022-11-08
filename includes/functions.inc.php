@@ -171,8 +171,28 @@ function meccsekLekerese($conn) {
 	return $result;
 }
 
-function meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm, $bunteto_a_gol, $bunteto_b_gol) {
-	$sql = "UPDATE meccsek SET  csapat_a = ?, csapat_a_gol = ?, csapat_b = ?, csapat_b_gol = ?, idopont = ?, eredmeny = ?, bunteto = ?, bunteto_a_gol = ?, bunteto_b_gol = ? WHERE id = ?;";
+function meccsEredmenyRogzitese($mysqli, $conn, $id, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $idopont, $eredmeny, $buntetoEredm, $bunteto_a_gol, $bunteto_b_gol) {
+	if ($bunteto_a_gol == NULL) {
+		$bunteto_a_gol = 0;
+	}
+	if ($bunteto_b_gol == NULL) {
+		$bunteto_b_gol = 0;
+	}
+
+	$sql = "UPDATE meccsek SET  csapat_a = '$csapat_a', csapat_a_gol = $csapat_a_gol, csapat_b = '$csapat_b', csapat_b_gol = $csapat_b_gol, idopont = '$idopont', eredmeny = $eredmeny, bunteto = $buntetoEredm, bunteto_a_gol = $bunteto_a_gol, bunteto_b_gol = $bunteto_b_gol WHERE id = $id;";
+
+	$mysqli->multi_query($sql);
+
+	print ($sql);
+
+	do {
+		if ($result = $mysqli->store_result()) {
+			var_dump($result->fetch_all());
+			$result->free();
+		}
+	} while ($mysqli->next_result());
+
+	/*
 	$stmt = mysqli_stmt_init($conn);
 	if (!mysqli_stmt_prepare($stmt, $sql)) {
 	 	header("location: ../admin.php?error=stmtfailed");
@@ -183,6 +203,7 @@ function meccsEredmenyRogzitese($conn, $id, $csapat_a, $csapat_a_gol, $csapat_b,
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 	mysqli_close($conn);
+	*/
 }
 
 function pontozas($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $eredmeny, $buntetoEredm) {
@@ -255,23 +276,52 @@ function kesesRogzitese($conn, $mysqli, $keses) {
 
 	//az eredeti ido elmentese egy kulon oszlopba
 	//ha a keses = 0 akkor az eredeti ido kiirasa
-
 	$sql = "";
-	if ($meccsek->num_rows > 0) {
-		while($seged = $meccsek->fetch_assoc()) {
-			$ido = $seged["idopont"];
-
-			$segedsz = strtotime($ido);
-			$date = date("H:i", $segedsz);
 	
-			$time = new DateTime($date);
-			$time->add(new DateInterval('PT' . $keses . 'M'));
-	
-			$stamp = $time->format('H:i');
+	if ($keses < 0) {
+		$segedkeses = abs($keses);
+		if ($meccsek->num_rows > 0) {
+			while($seged = $meccsek->fetch_assoc()) {
+				$eredmeny = $seged["eredmeny"];
+				if ($eredmeny == -1) {
+					$ido = $seged["idopont"];
+		
+					$segedsz = strtotime($ido);
+					$kivont = $segedsz - ($segedkeses * 60);
 
-			$sql .= "UPDATE meccsek SET csapat_a = '".$seged["csapat_a"]."', csapat_a_gol = ".$seged["csapat_a_gol"].", csapat_b = '".$seged["csapat_b"]."', csapat_b_gol = ".$seged["csapat_b_gol"].", idopont = '".$stamp."', eredmeny = ".$seged["eredmeny"]." WHERE id = ".$seged["id"].";";
+					//ebben van az hour and minutes
+					$date = date("H:i", $kivont);
+			
+					$time = new DateTime($date);
+			
+					$stamp = $time->format('H:i');
+		
+					$sql .= "UPDATE meccsek SET csapat_a = '".$seged["csapat_a"]."', csapat_a_gol = ".$seged["csapat_a_gol"].", csapat_b = '".$seged["csapat_b"]."', csapat_b_gol = ".$seged["csapat_b_gol"].", idopont = '".$stamp."', eredmeny = ".$seged["eredmeny"]." WHERE id = ".$seged["id"].";";
+				}
+			}
+		}		
+	} else {
+		if ($meccsek->num_rows > 0) {
+			while($seged = $meccsek->fetch_assoc()) {
+				$eredmeny = $seged["eredmeny"];
+				if ($eredmeny == -1) {
+					$ido = $seged["idopont"];
+		
+					$segedsz = strtotime($ido);
+					$date = date("H:i", $segedsz);
+			
+					$time = new DateTime($date);
+					$time->add(new DateInterval('PT' . $keses . 'M'));
+			
+					$stamp = $time->format('H:i');
+		
+					$sql .= "UPDATE meccsek SET csapat_a = '".$seged["csapat_a"]."', csapat_a_gol = ".$seged["csapat_a_gol"].", csapat_b = '".$seged["csapat_b"]."', csapat_b_gol = ".$seged["csapat_b_gol"].", idopont = '".$stamp."', eredmeny = ".$seged["eredmeny"]." WHERE id = ".$seged["id"].";";
+				}
+			}
 		}
 	}
+
+	
 	$mysqli->multi_query($sql);
 
 	print $sql;
@@ -326,8 +376,27 @@ function csoportokLekerese($conn) {
 	return $result;
 }
 
-function csoportFeltoltese($conn, $csoport_nev, $csapatok_str) {
-	$sql = "INSERT INTO csoportok (csoport_nev, csapatok) VALUES (?, ?)";
+function csoportFeltoltese($conn, $mysqli, $csoport_nev, $csapatok_str) {
+	$tomb = explode(";", $csapatok_str);
+
+	$sql = "";
+	$sql .= "INSERT INTO csoportok (csoport_nev, csapatok) VALUES ('".$csoport_nev."', '".$csapatok_str."');";
+	for ($i=0; $i < count($tomb); $i++) { 
+		$sql .= "UPDATE csapatok SET csoport='".$csoport_nev."' WHERE csapat_nev='".$tomb[$i]."';";
+	}
+
+	$mysqli->multi_query($sql);
+
+	print ($sql);
+
+	do {
+		if ($result = $mysqli->store_result()) {
+			var_dump($result->fetch_all());
+			$result->free();
+		}
+	} while ($mysqli->next_result());
+
+	/*
 	$stmt = mysqli_stmt_init($conn);
 	if (!mysqli_stmt_prepare($stmt, $sql)) {
 	 	header("location: ../admin.php?error=stmtfailed");
@@ -338,22 +407,126 @@ function csoportFeltoltese($conn, $csoport_nev, $csapatok_str) {
 	mysqli_stmt_execute($stmt);
 	mysqli_stmt_close($stmt);
 	mysqli_close($conn);
+	*/
+	
 	header("location: ../admin.php?error=none");
 	exit();
 }
 
-function csoportTorlese($conn, $id) {
-	$sql = "DELETE FROM csoportok WHERE id = ?;";
-	$stmt = mysqli_stmt_init($conn);
-	if (!mysqli_stmt_prepare($stmt, $sql)) {
-	 	header("location: ../admin.php?error=stmtfailed");
-		exit();
+function csoportTorlese($mysqli, $conn, $id, $csoport_nev) {
+	$sql = "DELETE FROM csoportok WHERE id = ".$id.";";
+
+	$csapatok = csapatokLekeres($conn);
+
+	if ($csapatok->num_rows > 0) {
+		while($seged = $csapatok->fetch_assoc()) {
+			if ($seged["csoport"] == $csoport_nev) {
+				$sql .= "UPDATE csapatok SET csoport = NULL WHERE csoport = '".$csoport_nev."';";
+			}
+		}
 	}
 
-	mysqli_stmt_bind_param($stmt, "s", $id);
-	mysqli_stmt_execute($stmt);
-	mysqli_stmt_close($stmt);
-	mysqli_close($conn);
+	$mysqli->multi_query($sql);
+
+	print ($sql);
+
+	do {
+		if ($result = $mysqli->store_result()) {
+			var_dump($result->fetch_all());
+			$result->free();
+		}
+	} while ($mysqli->next_result());
 	header("location: ../admin.php?error=none");
 	exit();
+}
+
+function csoportElsok($conn) {
+	$csapatok = csapatokLekeres($conn);
+	$csoportok = csoportokLekerese($conn);
+
+	if ($csapatok->num_rows > 0) {
+		while($seged = $csapatok->fetch_assoc()) {
+			$csapatokTomb[$seged["csapat_nev"]] = intval($seged["pontszam"]);
+		}
+	}
+
+	if ($csoportok->num_rows > 0) {
+		while($seged = $csoportok->fetch_assoc()) {
+			//echo $seged["csoport_nev"]. " -> " .$seged["csapatok"];
+			//echo '<br>';
+
+			$tomb = explode(";", $seged["csapatok"]);
+
+			$max = $tomb[0];
+			for ($i=1; $i < count($tomb); $i++) {
+				if ($csapatokTomb[$tomb[$i]] > $csapatokTomb[$max]) {
+					$max = $tomb[$i];
+				}
+			}
+
+			$elsok[$seged["csoport_nev"]] = $max . ";" . $csapatokTomb[$max];
+		}
+	}
+
+	return $elsok;
+}
+
+
+//
+function mentes($conn) {
+	$csoportok = csoportokLekerese($conn);
+	$textCsoportok = "";
+	if ($csoportok->num_rows > 0) {
+		while($seged = $csoportok->fetch_assoc()) {
+			$textCsoportok .= $seged["csoport_nev"] . "=" . $seged["csapatok"] . ",";
+		}
+	}
+
+	$csapatok = csapatokLekeres($conn);
+	$textCsapatok = "";
+	if ($csapatok->num_rows > 0) {
+		while($seged = $csapatok->fetch_assoc()) {
+			$textCsapatok .= $seged["csapat_nev"] . "=" . $seged["csapat_tagok"] . "=" . $seged["pontszam"] . "=" . $seged["csoport"] . ",";
+		}
+	}
+
+	$meccsek = meccsekLekerese($conn);
+	$textMeccsek = "";
+	if ($meccsek->num_rows > 0) {
+		while($seged = $meccsek->fetch_assoc()) {
+			$textMeccsek .= $seged["csapat_a"] . "=" . $seged["csapat_a_gol"]. "=" . $seged["csapat_b"] . "=" . $seged["csapat_b_gol"] . "=" . $seged["datum"] . "=" . $seged["idopont"] . "=" . $seged["eredmeny"] . "=" . $seged["bunteto"] . "=" . $seged["bunteto_a_gol"] . "=" . $seged["bunteto_b_gol"] . ",";
+		}
+	}
+}
+
+function tovabbJutott($mysqli, $conn, $csapat_a, $csapat_a_gol, $csapat_b, $csapat_b_gol, $csoport_nev, $csoport_tagok, $datum, $idopont, $eredmeny) {
+	// meccs beillesztese a meccsekbe
+	// csapat csoportjanak frissitese
+	// csoport letrehozasa
+	mentes($conn);
+
+
+	/*
+
+	//meccs beillesztese
+	$sql = "INSERT INTO meccsek (csapat_a, csapat_a_gol, csapat_b, csapat_b_gol, datum, idopont, eredmeny, bunteto, bunteto_a_gol, bunteto_b_gol) VALUES ('$csapat_a', $csapat_a_gol, '$csapat_b', $csapat_b_gol, '$datum', '$idopont', $eredmeny, 0, 0, 0);";
+
+	//csoport letrahozasa
+	$sql .= "INSERT INTO csoportok (csoport_nev, csapatok) VALUES ('$csoport_nev', '$csoport_tagok');";
+
+	// Csapatok frissitese
+	$sql .= "UPDATE csapatok SET csoport='$csoport_nev' WHERE csapat_nev='$csapat_a';";
+	$sql .= "UPDATE csapatok SET csoport='$csoport_nev' WHERE csapat_nev='$csapat_b';";
+
+	$mysqli->multi_query($sql);
+
+	do {
+		if ($result = $mysqli->store_result()) {
+			var_dump($result->fetch_all());
+			$result->free();
+		}
+	} while ($mysqli->next_result());
+	header("location: ../admin.php?error=none");
+	exit();
+	*/
 }

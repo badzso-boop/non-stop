@@ -16,11 +16,7 @@
 - Mobil barát felhasználói felület
 
 ## Terv
-- Csapatok felvitele csapattagokkal egyutt
-- Meccsek felvitele csapatokkal es idoponttal, majd eredmeny megadasa vagy kiesett
-- keses beallitasa
 - tovabbjutas kiszamolasa
-- design elkeszitese hogy pofas legyen :D
 
 
 ## ELkeszites

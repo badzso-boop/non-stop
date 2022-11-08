@@ -66,7 +66,7 @@
 
     <div class="container-fluid" style="margin-bottom: 10rem">
         <div class="row">
-            <div class="col m-4 text-center">
+            <div class="col m-auto text-center">
                 <h3>Csoportok</h3>
                 <?php
                     require_once 'includes/dbh.inc.php';
@@ -103,7 +103,7 @@
                     }
                 ?>
             </div>
-            <div class="col m-4 text-center">
+            <div class="col m-auto text-center">
                 <h3>Csapatok</h3>
                 <?php
                     $sql = "SELECT * FROM csapatok ORDER BY csapat_nev ASC LIMIT 4";
@@ -118,7 +118,6 @@
                 
                             echo '
                             <div class="card d-inline-block m-4" style="width: 18rem;">
-                                <img src="img/sample-sm.jpg" class="card-img-top" alt="...">
                                 <div class="card-body">
                                     <h5 class="card-title">'.$seged["csapat_nev"].'</h5>
                                     <div class="card-text">
@@ -130,8 +129,6 @@
                                         }
                                         echo '</ul>
                                     </div>
-                                    <a href="#" class="btn btn-primary" onclick="kedveles('.$k.')">Kedvelés küldése</a>
-                                    <p>Kedvelések: <span id="kedveles'.$k.'">0</span></p>
                                 </div>
                             </div>';
                             $k++;
